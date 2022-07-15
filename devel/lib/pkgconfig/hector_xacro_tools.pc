@@ -1,0 +1,8 @@
+prefix=/home/pramuk/Desktop/UAV-UGV/vayubhoomi-uav-ugv/catkin_ws/devel
+
+Name: hector_xacro_tools
+Description: Description of hector_xacro_tools
+Version: 0.4.2
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

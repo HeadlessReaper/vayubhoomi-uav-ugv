@@ -1,0 +1,4 @@
+<launch>
+    <rosparam file="$(find curve_tracer)/config/curve_tracer.yaml" command="load" />
+    <!--<node>-->
+</launch>

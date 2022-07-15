@@ -1,0 +1,12 @@
+Symlinking /home/pramuk/catkin_ws/src/distance_msgs/devel/./setup.bash
+Symlinking /home/pramuk/catkin_ws/src/distance_msgs/devel/./_setup_util.py
+Symlinking /home/pramuk/catkin_ws/src/distance_msgs/devel/./local_setup.zsh
+Symlinking /home/pramuk/catkin_ws/src/distance_msgs/devel/./setup.zsh
+Symlinking /home/pramuk/catkin_ws/src/distance_msgs/devel/./setup.sh
+Symlinking /home/pramuk/catkin_ws/src/distance_msgs/devel/./cmake.lock
+Symlinking /home/pramuk/catkin_ws/src/distance_msgs/devel/./local_setup.bash
+Symlinking /home/pramuk/catkin_ws/src/distance_msgs/devel/./env.sh
+Symlinking /home/pramuk/catkin_ws/src/distance_msgs/devel/./local_setup.sh
+Symlinking /home/pramuk/catkin_ws/src/distance_msgs/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig.cmake
+Symlinking /home/pramuk/catkin_ws/src/distance_msgs/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig-version.cmake
+Symlinking /home/pramuk/catkin_ws/src/distance_msgs/devel/lib/pkgconfig/catkin_tools_prebuild.pc

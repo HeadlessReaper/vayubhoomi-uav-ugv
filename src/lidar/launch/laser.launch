@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="lidar" type="botmove.py" name="rabbitposer" output="screen">
+        
+    </node>
+</launch>

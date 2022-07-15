@@ -1,0 +1,8 @@
+prefix=/home/pramuk/Desktop/UAV-UGV/vayubhoomi-uav-ugv/catkin_ws/devel
+
+Name: takeoff_land
+Description: Description of takeoff_land
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

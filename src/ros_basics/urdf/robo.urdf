@@ -1,0 +1,7 @@
+ <?xml version="1.0"?>
+ <robot name="robo">
+    <parent link="base link">
+        <child link="">
+
+
+ </robot>

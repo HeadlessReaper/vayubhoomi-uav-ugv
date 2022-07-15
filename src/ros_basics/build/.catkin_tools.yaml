@@ -1,0 +1,6 @@
+devel_space: /home/pramuk/catkin_ws/src/ros_basics/devel
+install: false
+install_space: /home/pramuk/catkin_ws/src/ros_basics/install
+profile: default
+source_space: /home/pramuk/catkin_ws/src/ros_basics/src
+workspace: /home/pramuk/catkin_ws/src/ros_basics

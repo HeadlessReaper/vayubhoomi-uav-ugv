@@ -1,0 +1,8 @@
+prefix=/home/pramuk/Desktop/UAV-UGV/vayubhoomi-uav-ugv/catkin_ws/devel
+
+Name: hector_ui
+Description: Description of hector_ui
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
