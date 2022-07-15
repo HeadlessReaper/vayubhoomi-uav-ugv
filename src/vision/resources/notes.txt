@@ -1,0 +1,12 @@
+TO DO (MIM4):
+
+- write a node to detect cans using cvBridge [DONE]
+- write a node to localize the can view locations [DONE]
+- write a pre-programmed route for the drone to take off and traverse through [DONE]
+- combine the last three and test [DONE]
+
+General notes and future TO DO items:
+
+- after collecting a list of all quadrotor pose projections, how to get rid of redundant locations?
+- figure out how to use launch files to automate everything
+
