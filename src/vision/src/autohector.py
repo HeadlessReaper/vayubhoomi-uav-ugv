@@ -68,6 +68,73 @@ def ccw():
 
 def pathExec():
 
+    # write the movements to be executed by the drone sequentially
+    # note that the last provided command is what will be published
+
+    # takeoff   
+    hover()
+    sleep(2)
+    up()
+    sleep(5)
+    hover()
+    sleep(2)
+
+    forward()
+    sleep(1)
+    hover()
+    sleep(2)
+
+    right()
+    sleep(1)
+    hover()
+    sleep(2)
+
+    forward()
+    sleep(5)
+    hover()
+    sleep(2)
+
+    cw()
+    sleep(4)
+    hover()
+    sleep(2)
+
+    forward()
+    sleep(1)
+    hover()
+    sleep(2)
+
+    cw()
+    sleep(4)
+    hover()
+    sleep(2)
+
+    forward()
+    sleep(5)
+    hover()
+    sleep(2)
+
+    ccw()
+    sleep(4)
+    hover()
+    sleep(2)
+
+    forward()
+    sleep(1)
+    hover()
+    sleep(2)
+
+    ccw()
+    sleep(4)
+    hover()
+    sleep(2)
+
+    forward()
+    sleep(3)
+    hover()
+    sleep(2)
+
+    
 
 
 if __name__ == '__main__':
