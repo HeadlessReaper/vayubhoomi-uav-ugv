@@ -75,7 +75,7 @@ def pathExec():
     hover()
     sleep(2)
     up()
-    sleep(5)
+    sleep(3)
     hover()
     sleep(2)
 
@@ -134,7 +134,60 @@ def pathExec():
     hover()
     sleep(2)
 
-    
+    forward()
+    sleep(1)
+    hover()
+    sleep(2)
+
+    right()
+    sleep(1)
+    hover()
+    sleep(2)
+
+    forward()
+    sleep(5)
+    hover()
+    sleep(2)
+
+    cw()
+    sleep(4)
+    hover()
+    sleep(2)
+
+    forward()
+    sleep(1)
+    hover()
+    sleep(2)
+
+    cw()
+    sleep(4)
+    hover()
+    sleep(2)
+
+    forward()
+    sleep(5)
+    hover()
+    sleep(2)
+
+    ccw()
+    sleep(4)
+    hover()
+    sleep(2)
+
+    forward()
+    sleep(1)
+    hover()
+    sleep(2)
+
+    ccw()
+    sleep(4)
+    hover()
+    sleep(2)
+
+    forward()
+    sleep(3)
+    hover()
+    sleep(2)
 
 
 if __name__ == '__main__':
