@@ -45,8 +45,8 @@ def stackImages(scale,imgArray):
 def poseRecordCallback(location) :
 
     # currently focusing on appending to text file, although a pandas dataframe will be a more appropriate data structure for collecting recon data
-    file = open('positions.txt', 'a')
-    file.write(str(location.pose.position.x) + ', ' + str(location.pose.position.y) + '\n')
+    file = open('positions.csv', 'a')
+    file.write(str(location.pose.position.x) + ',' + str(location.pose.position.y) + '\n')
     file.close()
 
 def imageCallback(ros_image):
@@ -100,12 +100,18 @@ def main(args):
 
     rospy.init_node('vision', anonymous=True)
 
+    # file initialization
+    file = open('positions.csv', 'a')
+    file.write('x,y\n')
+    file.close()
+
     #`for turtlebot3 waffle
     #`image_topic="/camera/rgb/image_raw/compressed"
     #`for usb cam
     #`image_topic = "/usb_cam/image_raw"
     #`for hector quadrotor
     imageTopic = "/front_cam/camera/image"
+
     image_sub = rospy.Subscriber(imageTopic,Image, imageCallback)
 
     try:
