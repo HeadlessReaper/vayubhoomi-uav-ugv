@@ -1,10 +1,13 @@
-import rospy
+# this node takes an input stream from the camera feed and records the ground location of the drone in areas with detected targets
+
+import sys
 import cv2
+import rospy
 import numpy as np
 from std_msgs.msg import String
 from sensor_msgs.msg import Image
+from geometry_msgs.msg import PoseStamped
 from cv_bridge import CvBridge, CvBridgeError
-import sys
 
 bridge = CvBridge()
 
@@ -39,7 +42,14 @@ def stackImages(scale,imgArray):
         ver = hor
     return ver
 
-def image_callback(ros_image):
+def poseRecordCallback(location) :
+
+    # currently focusing on appending to text file, although a pandas dataframe will be a more appropriate data structure for collecting recon data
+    file = open('positions.txt', 'a')
+    file.write(str(location.pose.position.x) + ', ' + str(location.pose.position.y) + '\n')
+    file.close()
+
+def imageCallback(ros_image):
 
     global bridge
 
@@ -49,17 +59,22 @@ def image_callback(ros_image):
             print(e)
 
     ##############################################################
-    # from this point on, img is the target of processing
+    # from this point on, 'img' is the target of processing
     ##############################################################
-    hMin, sMin, vMin, hMax, sMax, vMax =  147 , 52 , 0 , 179 , 248 , 214
     imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV) 
 
+    # currently, the target being detected is a coke can
+    # replace this subsection with bounding box classifier to detect trash at a later stage
+    hMin, sMin, vMin, hMax, sMax, vMax =  147 , 52 , 0 , 179 , 248 , 214
     lower = np.array([hMin, sMin, vMin])  # minimum range array
     upper = np.array([hMax, sMax, vMax])  # maximum range array
     mask = cv2.inRange(imgHSV, lower, upper)
+
     kernel = np.ones((5,5), np.uint8)
     dilate = cv2.dilate(mask, kernel, iterations=1)
+
     imgResult = img
+
     contours, hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE) # image, retrieval method (here, for outermost contours), approximation 
     x, y, w, h = 0, 0, 0, 0
 
@@ -72,8 +87,11 @@ def image_callback(ros_image):
         x, y, w, h = cv2.boundingRect(cnt) # coordinates of each shape
         cv2.rectangle(imgResult, (x,y), (x+w, y+h), (0, 255, 0), 2) # bounding rectangle (green for each detected shape)
 
-        imgStacked = stackImages(0.5, ([img, dilate, imgResult]))
-    cv2.imshow("Image", imgStacked)
+        # subsection to call a function to save the quadrotor pose 
+        pos = rospy.Subscriber("/ground_truth_to_tf/pose", PoseStamped, poseRecordCallback)
+        
+    # imgStacked = stackImages(0.5, ([img, dilate, imgResult]))
+    cv2.imshow("Image", imgResult)
     ##############################################################
     cv2.waitKey(3)
 
@@ -87,8 +105,8 @@ def main(args):
     #`for usb cam
     #`image_topic = "/usb_cam/image_raw"
     #`for hector quadrotor
-    image_topic = "/front_cam/camera/image"
-    image_sub = rospy.Subscriber(image_topic,Image, image_callback)
+    imageTopic = "/front_cam/camera/image"
+    image_sub = rospy.Subscriber(imageTopic,Image, imageCallback)
 
     try:
         rospy.spin()

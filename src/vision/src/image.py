@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+
+# Shayak's example for location recording with object detection  
+
 from __future__ import print_function
 
 #Importing Nescessary Libraries
@@ -11,7 +14,6 @@ import numpy as np
 from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from geometry_msgs.msg import PoseStamped
-
 from cv_bridge import CvBridge, CvBridgeError
 
 #Class defined to convert image using Cv_bridge
@@ -19,7 +21,6 @@ from cv_bridge import CvBridge, CvBridgeError
 class image_converter:
 
   def __init__(self):
-
 
     self.bridge = CvBridge()
     print("Topic subscribing..")
@@ -77,11 +78,6 @@ class image_converter:
 
     
     contours, _ = cv2.findContours(mask,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
-
-     
-  
-  
-
    
     cnt = cv2.drawContours(output,contours, -1, (0,255,0), 3)
     #cv2.imshow('Contours',cnt)
