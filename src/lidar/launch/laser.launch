@@ -1,5 +1,23 @@
+<?xml version="1.0"?>
+
 <launch>
-    <node pkg="lidar" type="botmove.py" name="rabbitposer" output="screen">
-        
-    </node>
+      <!-- Start Gazebo with wg world running in (max) realtime -->
+    <include file="$(find hector_gazebo_worlds)/launch/rolling_landscape_120m.launch"/> <!--to launch world-->
+
+    <group ns ="quadrotor">
+    <!-- Spawn simulated quadrotor uav -->
+        <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch" >
+            <arg name="model" value="$(find hector_quadrotor_description)/urdf/quadrotor_hokuyo_utm30lx.gazebo.xacro"/>
+        </include>
+         
+    </group>
+
+    <group ns ="turtlebot">
+        <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+        <arg name="x_pos" default="1.0"/>
+        <arg name="y_pos" default="0.5"/>
+        <arg name="z_pos" default="0.3"/>
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro" />
+        <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" args="-urdf -model turtlebot3_$(arg model) -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />
+    </group>
 </launch>
