@@ -45,8 +45,8 @@ def move(xgoal,ygoal,zgoal):
     vmsg = Twist()
     pub=rospy.Publisher('/quadrotor/cmd_vel',Twist,queue_size=10)  
 
-    vmsg.linear.z=0.8
-    rospy.sleep(1)
+    vmsg.linear.z=1
+    time.sleep(1)
     pub.publish(vmsg)
 
     while(True):
@@ -71,7 +71,7 @@ def move(xgoal,ygoal,zgoal):
         vmsg.linear.x = linear_speed
         vmsg.angular.z = angular_speed
 
-        if((dist1>1.5 or dist1==inf)):
+        if((dist1>0.5 or dist1==inf)):
             pub.publish(vmsg)
             print ('x=', x_p, 'y=',y_p)
             distp=distance
@@ -82,7 +82,7 @@ def move(xgoal,ygoal,zgoal):
             print('*********************************************************')
             pub.publish(vmsg)
             break
-        if(dist1<1.5 ):#or dist2<1.5 or dist3<1.5
+        if(dist1<0.5 ):#or dist2<1.5 or dist3<1.5
             print('********************obstacle seen*****************')
             print('dist :',dist1)
             vmsg.linear.x = -2
@@ -102,5 +102,6 @@ if __name__ == '__main__':
         distsub=rospy.Subscriber('/quadrotor/scan',LaserScan,distCallback)
         time.sleep(0.5)
         move(4,-5,10)
+        rospy.spin()
     except rospy.ROSInterruptException:
         rospy.loginfo("node terminated.")

@@ -69,8 +69,8 @@ def rotate (angular_speed_degree, relative_angle_degree, clockwise):
 
     angle_moved = 0.0
     loop_rate = rospy.Rate(10) # we publish the velocity at 10 Hz (10 times a second)    
-    cmd_vel_topic='/cmd_vel'
-    velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size=10)
+    cmd_vel_topic='/turtlebot//cmd_vel'
+    velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size=5)
 
     t0 = rospy.Time.now().to_sec()
 
@@ -143,7 +143,7 @@ def go_to_goal(x_goal, y_goal):
             #print('dist1 :',dist1,'dist2 :',dist2,'dist3 :' ,dist3)
             print("linear speed",linear_speed)
             if (next((True for elem in dist1 if elem <0.15), False)):
-                velocity_message.linear.x=-0.4
+                velocity_message.linear.x=-0.6
                 pub.publish(velocity_message)
                 time.sleep(0.5)
             else:
@@ -196,11 +196,12 @@ if __name__ == '__main__':
         distsub=rospy.Subscriber(disttop,LaserScan,distCallback)
         time.sleep(1)
         #move(0.2,0.35,True)
-        l=[(5,4)]
+        l=[(0.5,1)]
         for (i,j) in l:
             go_to_goal(i,j)
             print("next stop")
             time.sleep(2)
+        rospy.spin()
         
     except rospy.ROSInterruptException:
         rospy.loginfo("node terminated.")
