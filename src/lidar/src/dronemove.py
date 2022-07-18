@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 from cmath import inf
 import rospy
 from geometry_msgs.msg import Twist
@@ -9,8 +10,15 @@ import math
 import time
 
 distp=0
+yaw=0
 errorp=0
 integ=0
+x_p=0
+y_p=0
+z_p=0
+dist1=0
+dist2=0
+dist3=0
 
 def poseCallback(pose_message):
     global x_p
@@ -24,7 +32,8 @@ def poseCallback(pose_message):
     yaw=round(yaw,2)
     
 def distCallback(msg):
-    global dist1,dist2 , dist3
+    global dist1
+    global dist2 , dist3
     dist1=round(msg.ranges[540],2)
     dist2=round(msg.ranges[8],2)
     dist3=round(msg.ranges[1070],2)#backwards
@@ -32,14 +41,13 @@ def distCallback(msg):
 
 def move(xgoal,ygoal,zgoal):
     global x_p,y_p, z_p
-    global dist1,distp,yaw,errorp,integ
+    global dist1,dist2,dist3,distp,yaw,errorp,integ
+    vmsg = Twist()
+    pub=rospy.Publisher('/quadrotor/cmd_vel',Twist,queue_size=10)  
 
-    velocity_message = Twist()
-    pub=rospy.Publisher('/cmd_vel',Twist,queue_size=10)  
-
-    velocity_message.linear.z=0.4
-    rospy.sleep(0.8)
-    pub.publish(velocity_message)
+    vmsg.linear.z=0.8
+    rospy.sleep(1)
+    pub.publish(vmsg)
 
     while(True):
         distance = round(abs(math.sqrt(((xgoal-x_p) ** 2) + ((ygoal-y_p) ** 2)+((zgoal-z_p) ** 2))),2)
@@ -60,39 +68,39 @@ def move(xgoal,ygoal,zgoal):
         desired_angle_goal = math.atan2(ygoal-y_p, xgoal-x_p)
         angular_speed = (desired_angle_goal-yaw)*K_angular
 
-        velocity_message.linear.x = linear_speed
-        velocity_message.angular.z = angular_speed
+        vmsg.linear.x = linear_speed
+        vmsg.angular.z = angular_speed
 
         if((dist1>1.5 or dist1==inf)):
-            pub.publish(velocity_message)
+            pub.publish(vmsg)
             print ('x=', x_p, 'y=',y_p)
             distp=distance
             errorp=error
         elif ((x_p==xgoal and y_p==ygoal and z_p==zgoal) or distance<0.5):
             
-            velocity_message.angular.z = 0
+            vmsg.angular.z = 0
             print('*********************************************************')
-            pub.publish(velocity_message)
+            pub.publish(vmsg)
             break
         if(dist1<1.5 ):#or dist2<1.5 or dist3<1.5
             print('********************obstacle seen*****************')
             print('dist :',dist1)
-            velocity_message.linear.x = -2
-            pub.publish(velocity_message)
+            vmsg.linear.x = -2
+            pub.publish(vmsg)
             time.sleep(1)
-            velocity_message.linear.x = 0
-            pub.publish(velocity_message)
+            vmsg.linear.x = 0
+            vmsg.linear.z=0
+            pub.publish(vmsg)
             break
 
 
 if __name__ == '__main__':
     try:
-        rospy.init_node('drone',anonymous=True)
-        veltop='/cmd_vel'
-        velpub=rospy.Publisher(veltop,Twist,queue_size=10)
+        rospy.init_node('drone',anonymous=False)
+        velpub=rospy.Publisher('/quadrotor/cmd_vel',Twist,queue_size=10)
         possub=rospy.Subscriber('ground_truth/state',Odometry,poseCallback)
-        possub=rospy.Subscriber('/scan',LaserScan,distCallback)
+        distsub=rospy.Subscriber('/quadrotor/scan',LaserScan,distCallback)
         time.sleep(0.5)
-        move(4,5,2)
+        move(4,-5,10)
     except rospy.ROSInterruptException:
         rospy.loginfo("node terminated.")

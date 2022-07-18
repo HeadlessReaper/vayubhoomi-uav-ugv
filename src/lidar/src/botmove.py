@@ -11,11 +11,14 @@ import time
 
 x=0
 y=0
-dist1=0
 yaw=0
 integ=0
 distp=0
 errorp=0
+dist3=0
+dist4=0
+dist1=[]
+dist2=[]
 
 def clamp(value, limits):
     lower, upper = limits
@@ -41,11 +44,11 @@ def poseCallback(pose_message):
 
 def distCallback(msg):
     global dist1,dist2,dist3,dist4
-    dist1=msg.ranges[5]
-    dist2=msg.ranges[30]#left
-    dist3=msg.ranges[300] #right
-    dist4=msg.ranges[355]
-    print(" Distance from scan topic : ",dist1)
+    dist1=msg.ranges[8:80]#left 0 to 75
+    dist2=msg.ranges[210:359]#right
+    dist3=msg.ranges[15] 
+    dist4=msg.ranges[310]
+    #print(" Distance from scan topic : ",dist1)
 
 def rotate (angular_speed_degree, relative_angle_degree, clockwise):
     
@@ -86,8 +89,8 @@ def rotate (angular_speed_degree, relative_angle_degree, clockwise):
             break
 
     #finally, stop the robot when the distance is moved
-    velocity_message.angular.z =0
-    velocity_publisher.publish(velocity_message)
+    # velocity_message.angular.z =0
+    # velocity_publisher.publish(velocity_message)
 
 def go_to_goal(x_goal, y_goal):
 
@@ -95,21 +98,21 @@ def go_to_goal(x_goal, y_goal):
     global y, yaw
 
     velocity_message = Twist()
-    cmd_vel_topic='/cmd_vel'
+    cmd_vel_topic='/turtlebot/cmd_vel'
     pub=rospy.Publisher(cmd_vel_topic,Twist,queue_size=10)   
 
     slope=y_goal/x_goal
 
     while (True):
         global integ,dist2,dist3
-        kp =0.15
+        kp =0.3
         ki=0.00005
         kd=1.3
 
         distance = round(abs(math.sqrt(((x_goal-x) ** 2) + ((y_goal-y) ** 2))),2)
         distyex=round(abs(math.sqrt(((x_goal-x) ** 2) + ((y_goal-(slope*x)) ** 2))),2)
-
-        error=(distyex-distance) if (dist1==inf) else (0.5-min(dist1,dist2,dist3))
+        #distyex-distance
+        error=(abs((-slope * x +y)) / (math.sqrt(slope**2 + 1))) if (dist3==inf or dist4==inf) else (0.5-min(dist3,dist4))
         der = error - errorp
         integ= 0.67*integ+error
         
@@ -117,32 +120,53 @@ def go_to_goal(x_goal, y_goal):
         linear_speed = kp*distance+ki*integ+(kd*der)
         print('error',error,'Integ : ',ki*integ,'der',kd*der, 'linear speed',linear_speed)
  
-        K_angular =3
+        K_angular =4
         desired_angle_goal = math.atan2(y_goal-y, x_goal-x)
         angular_speed = (desired_angle_goal-yaw)*K_angular
 
         velocity_message.linear.x = 0.707*linear_speed
         velocity_message.angular.z = angular_speed
 
-        if(dist1<0.5 or dist2<0.5):
-            print('********************obstacle seen*****************')
-            print('dist1 :',dist1,'dist2 :',dist2,'dist3 :' ,dist3)
-            print("linear speed",linear_speed)
-            velocity_message.linear.x =linear_speed
-            #velocity_message.angular.z = -angular_speed
-            rotate(40,30,True)
-            pub.publish(velocity_message)
-            time.sleep(0.1)
+        # if(next((True for elem in (dist1) if elem <0.5), False) and next((True for elem in (dist1) if elem <0.5), False)):
+        #     print('********************obstacle seen*****************')
+        #     #print('dist1 :',dist1,'dist2 :',dist2,'dist3 :' ,dist3)
+        #     print("linear speed",linear_speed)
+        #     velocity_message.linear.x =linear_speed
+        #     #velocity_message.angular.z = -angular_speed
+        #     #rotate(5,15,True)
+        #     pub.publish(velocity_message)
+        #     time.sleep(0.6)
 
-        elif(dist3<0.5):
-            print('********************obstacle seen*****************')
-            print('dist :',min(dist1,dist2,dist3))
+
+        if(next((True for elem in dist1 if elem <0.4), False)):
+            print('******************** obstacle on left ********************')
+            #print('dist1 :',dist1,'dist2 :',dist2,'dist3 :' ,dist3)
             print("linear speed",linear_speed)
-            velocity_message.linear.x = linear_speed
-            #velocity_message.angular.z = angular_speed
-            rotate(45,30,False)
-            pub.publish(velocity_message)
-            time.sleep(0.1)
+            if (next((True for elem in dist1 if elem <0.15), False)):
+                velocity_message.linear.x=-0.4
+                pub.publish(velocity_message)
+                time.sleep(0.5)
+            else:
+                velocity_message.linear.x =0.707*linear_speed
+                #velocity_message.angular.z = -angular_speed
+                rotate(20,40,True)
+                pub.publish(velocity_message)
+                time.sleep(0.7)
+
+        elif(next((True for elem in dist2 if elem <0.4), False)):
+            print('******************** obstacle on right *******************')
+            #print('dist :',min(dist1,dist2,dist3))
+            print("linear speed",linear_speed)
+            if (next((True for elem in dist2 if elem <0.15), False)):
+                velocity_message.linear.x=-0.4
+                pub.publish(velocity_message)
+                time.sleep(0.5)
+            else:
+                velocity_message.linear.x = 0.707*linear_speed
+                #velocity_message.angular.z = angular_speed
+                rotate(20,40,False)
+                pub.publish(velocity_message)
+                time.sleep(0.7)
 
         # if((dist1>0.5 or dist2>0.5 or dist4>0.6 or dist3>0.5 or dist1==inf) and not (x==x_goal and y==y_goal)):
         #     pub.publish(velocity_message)
@@ -158,25 +182,25 @@ def go_to_goal(x_goal, y_goal):
         else:
             pub.publish(velocity_message)
             print ('x=', x, 'y=',y)
-            distp= min(dist1,dist2,dist3) if (dist1!=inf or dist2!=inf or dist3!=inf or dist4!=inf) else distance
+            distp= min(dist4,dist3) if (dist3!=inf or dist4!=inf ) else distance
             errorp=error
         
 if __name__ == '__main__':
     try:
-        rospy.init_node('rabbitposer',anonymous=True)
-        veltop='/cmd_vel'
+        rospy.init_node('rabbitposer',anonymous=False)
+        veltop='/turtlebot/cmd_vel'
         velpub=rospy.Publisher(veltop,Twist,queue_size=10)
-        postop='/odom'
+        postop='/turtlebot/odom'
         possub=rospy.Subscriber(postop,Odometry,poseCallback)
-        disttop='/scan'
+        disttop='/turtlebot/scan'
         distsub=rospy.Subscriber(disttop,LaserScan,distCallback)
         time.sleep(1)
         #move(0.2,0.35,True)
-        l=[(1.5,1.5),(-1.5,-1.5)]
+        l=[(5,4)]
         for (i,j) in l:
             go_to_goal(i,j)
             print("next stop")
-            time.sleep(1)
+            time.sleep(2)
         
     except rospy.ROSInterruptException:
         rospy.loginfo("node terminated.")
