@@ -45,9 +45,9 @@ def move(xgoal,ygoal,zgoal):
     vmsg = Twist()
     pub=rospy.Publisher('/quadrotor/cmd_vel',Twist,queue_size=10)  
 
-    vmsg.linear.z=1
-    time.sleep(1)
+    vmsg.linear.z=0.8
     pub.publish(vmsg)
+    time.sleep(0.8)
 
     while(True):
         distance = round(abs(math.sqrt(((xgoal-x_p) ** 2) + ((ygoal-y_p) ** 2)+((zgoal-z_p) ** 2))),2)
@@ -76,8 +76,7 @@ def move(xgoal,ygoal,zgoal):
             print ('x=', x_p, 'y=',y_p)
             distp=distance
             errorp=error
-        elif ((x_p==xgoal and y_p==ygoal and z_p==zgoal) or distance<0.5):
-            
+        elif ((x_p==xgoal and y_p==ygoal and z_p==zgoal) or distance<0.5):            
             vmsg.angular.z = 0
             print('*********************************************************')
             pub.publish(vmsg)
@@ -85,7 +84,7 @@ def move(xgoal,ygoal,zgoal):
         if(dist1<0.5 ):#or dist2<1.5 or dist3<1.5
             print('********************obstacle seen*****************')
             print('dist :',dist1)
-            vmsg.linear.x = -2
+            vmsg.linear.x = -1
             pub.publish(vmsg)
             time.sleep(1)
             vmsg.linear.x = 0
