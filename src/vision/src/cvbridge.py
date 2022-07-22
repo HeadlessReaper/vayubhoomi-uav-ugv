@@ -72,7 +72,7 @@ def imageCallback(ros_image):
 
     kernel = np.ones((5,5), np.uint8)
     dilate = cv2.dilate(mask, kernel, iterations=1)
-
+    
     imgResult = img
 
     contours, hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE) # image, retrieval method (here, for outermost contours), approximation 

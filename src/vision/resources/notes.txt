@@ -1,12 +1,17 @@
-TO DO (MIM4):
+TO DO (MIM5):
 
-- write a node to detect cans using cvBridge [DONE]
-- write a node to localize the can view locations [DONE]
-- write a pre-programmed route for the drone to take off and traverse through [DONE]
-- combine the last three and test [DONE]
+- create new branch for vision code
+- cluster the collected data points
+- write a bounding box classifier program for a generic image dataset
+- find a dataset for simulated/real trash piles in that order
+- write a spirally diminishing hector quadrotor control program
+- get launch file for quadrotor and turtlebot simultaneous spawning
 
-General notes and future TO DO items:
+General notes :
 
-- after collecting a list of all quadrotor pose projections, how to get rid of redundant locations?
-- figure out how to use launch files to automate everything
+- the drone will capture a video feed throughout its path 
+- the video feed will be sent to a base station for point identification
+- point identification will occur at the base station using an appropriately trained bounding box classifier written using pytorch
+- clustering will occur at the same base station
+- location to which forwarding of the clustered locations will occur is unclear at this point (i.e.; to another node at the base station or to the UGV?)
 
