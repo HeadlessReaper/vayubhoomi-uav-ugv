@@ -58,3 +58,7 @@ CATKIN_IGNORE
 
 # Git CLI key ignore 
 resources/GitCLIKey.txt
+
+# Dataset ignore
+src/vision/src/wasteTensorflow/dataset
+src/vision/src/wasteTensorflow/models

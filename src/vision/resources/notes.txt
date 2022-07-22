@@ -4,7 +4,7 @@ TO DO (MIM5):
 - cluster the collected data points [DONE]
 - write a bounding box classifier program for a generic image dataset 
 - find a dataset for simulated/real trash piles in that order
-- write a spirally diminishing hector quadrotor control program
+- write a spirally diminishing hector quadrotor control program [DELEGATED]
 - get launch file for quadrotor and turtlebot simultaneous spawning
 
 General notes :
