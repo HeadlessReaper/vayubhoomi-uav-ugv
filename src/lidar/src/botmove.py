@@ -20,6 +20,7 @@ dist4=0
 dist1=[]
 dist2=[]
 dist5=[]
+dist6=[]
 
 def clamp(value, limits):
     lower, upper = limits
@@ -44,25 +45,26 @@ def poseCallback(pose_message):
     print(x,y)
 
 def distCallback(msg):
-    global dist1,dist2,dist3,dist4,dist5
+    global dist1,dist2,dist3,dist4,dist5,dist6
     dist1=msg.ranges[8:100]#left 0 to 75
     dist2=msg.ranges[200:350]#right
-    dist5=msg.ranges[120:270]
+    dist5=msg.ranges[100:270]
+    dist6=msg.ranges[:50:]+msg.ranges[:-50:-1]
     dist3=msg.ranges[10] 
     dist4=msg.ranges[310]
     #print(" Distance from scan topic : ",dist1)
 
 def check(d1,d):
+    ctr=0
     for elem in d1:
         if elem<=d:
             print('heeeeeeeeellllllllllllllllllllllllllllllloooooooo')
             return True
         else:
-            print('Nooooooooooooooooooooo')
-            return False
+            pass
 
 def rotate (angular_speed_degree, relative_angle_degree, clockwise):
-    global dist1,dist2,dist5,yaw
+    global dist1,dist2,dist5,dist6,yaw
     vmsg = Twist()
     vmsg.linear.x=0
     vmsg.linear.y=0
@@ -85,7 +87,7 @@ def rotate (angular_speed_degree, relative_angle_degree, clockwise):
 
     t0 = rospy.Time.now().to_sec()
 
-    while (check(dist5,0.25)==False) :
+    while ((next((True for elem in dist5 if elem <0.2), False)==False )and (next((True for elem in dist6 if elem <0.2), False)==False )) :
         print("Turtlesim rotates")
         velocity_publisher.publish(vmsg)
 
@@ -98,17 +100,18 @@ def rotate (angular_speed_degree, relative_angle_degree, clockwise):
         if  (current_angle_degree>relative_angle_degree):
             print('reached')
             break
-
-    if(check(dist1,0.2)==True):
-        print('rotate fn reverse')
-        vmsg.linear.x=-0.1
-        velocity_publisher.publish(vmsg)
-        time.sleep(0.4)
-    elif(check(dist2,0.25)==True):
-        print('rotate fn forward')
-        vmsg.linear.x=0.1
-        velocity_publisher.publish(vmsg)
-        time.sleep(0.4)
+    else:
+        print("**********False************")
+        if(check(dist6,0.2)==True):
+            print('rotate fn reverse')
+            vmsg.linear.x=-0.1
+            velocity_publisher.publish(vmsg)
+            time.sleep(0.4)
+        elif(check(dist5,0.25)==True):
+            print('rotate fn forward')
+            vmsg.linear.x=0.1
+            velocity_publisher.publish(vmsg)
+            time.sleep(0.4)
 
 def go_to_goal(x_goal, y_goal):
 
@@ -123,7 +126,7 @@ def go_to_goal(x_goal, y_goal):
 
     while (True):
         global integ,dist2,dist3
-        kp =0.3
+        kp =0.25
         ki=0.000004
         kd=1.3
 
@@ -139,7 +142,7 @@ def go_to_goal(x_goal, y_goal):
         linear_speed = kp*distance+ki*integ+(kd*der)
         print('error',error,'Integ : ',ki*integ,'der',kd*der, 'linear speed',linear_speed)
  
-        K_angular =4
+        K_angular =3
         desired_angle_goal = math.atan2(y_goal-y, x_goal-x)
         angular_speed = (desired_angle_goal-yaw)*K_angular
 
@@ -158,13 +161,15 @@ def go_to_goal(x_goal, y_goal):
             #print('dist1 :',dist1,'dist2 :',dist2,'dist3 :' ,dist3)
             print("linear speed",linear_speed)
             if (next((True for elem in dist1 if elem <0.2), False)):
+                print('less than 0.2')
                 velocity_message.linear.x=-0.65
                 pub.publish(velocity_message) 
                 time.sleep(0.4)
-                rotate(20,40,True)
+                rotate(10,40,True)
                 errorp=error
             else:
-                rotate(20,40,True)
+                print('less than 0.4')
+                rotate(10,40,True)
                 velocity_message.linear.x =0.707*linear_speed
                 #velocity_message.angular.z = -angular_speed
                 pub.publish(velocity_message)
@@ -179,10 +184,10 @@ def go_to_goal(x_goal, y_goal):
                 velocity_message.linear.x=-0.65
                 pub.publish(velocity_message)
                 time.sleep(0.4)
-                rotate(20,40,False)
+                rotate(10,40,False)
                 errorp=error
             else:
-                rotate(20,40,False)
+                rotate(10,40,False)
                 velocity_message.linear.x = 0.707*linear_speed
                 #velocity_message.angular.z = angular_speed
                 pub.publish(velocity_message)
@@ -206,7 +211,7 @@ if __name__ == '__main__':
         distsub=rospy.Subscriber(disttop,LaserScan,distCallback)
         time.sleep(1)
         #move(0.2,0.35,True)
-        l=[(-1.2,-1.2)]
+        l=[(0.5,1.75)]
         for (i,j) in l:
             go_to_goal(i,j)
             print("next stop")
