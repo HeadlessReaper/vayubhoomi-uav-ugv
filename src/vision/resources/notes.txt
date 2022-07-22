@@ -2,8 +2,8 @@ TO DO (MIM5):
 
 - create new branch for vision code [DONE]
 - cluster the collected data points [DONE]
-- write a bounding box classifier program for a generic image dataset 
-- find a dataset for simulated/real trash piles in that order
+- write a bounding box classifier program for a generic image dataset [DONE]
+- find a dataset for simulated/real trash piles in that order [DONE]
 - write a spirally diminishing hector quadrotor control program [DONE (SAMUEL)]
 - get launch file for quadrotor and turtlebot simultaneous spawning [DONE (PRAMUK)]
 
