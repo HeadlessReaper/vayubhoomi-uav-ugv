@@ -1,11 +1,11 @@
 TO DO (MIM5):
 
-- create new branch for vision code
-- cluster the collected data points
-- write a bounding box classifier program for a generic image dataset
-- find a dataset for simulated/real trash piles in that order
-- write a spirally diminishing hector quadrotor control program
-- get launch file for quadrotor and turtlebot simultaneous spawning
+- create new branch for vision code [DONE]
+- cluster the collected data points [DONE]
+- write a bounding box classifier program for a generic image dataset [DONE]
+- find a dataset for simulated/real trash piles in that order [DONE]
+- write a spirally diminishing hector quadrotor control program [DONE (SAMUEL)]
+- get launch file for quadrotor and turtlebot simultaneous spawning [DONE (PRAMUK)]
 
 General notes :
 
@@ -13,5 +13,6 @@ General notes :
 - the video feed will be sent to a base station for point identification
 - point identification will occur at the base station using an appropriately trained bounding box classifier written using pytorch
 - clustering will occur at the same base station
-- location to which forwarding of the clustered locations will occur is unclear at this point (i.e.; to another node at the base station or to the UGV?)
 
+- figure out a way to get to cap.release() in cvbridge.py
+- resolve image resizing error in wasteTensorflow/TACOBBTensorflow.ipynb

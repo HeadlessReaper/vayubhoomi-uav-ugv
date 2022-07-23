@@ -10,6 +10,9 @@ from geometry_msgs.msg import PoseStamped
 from cv_bridge import CvBridge, CvBridgeError
 
 bridge = CvBridge()
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter('video.mp4', fourcc, 20.0, (640, 480))
+frameNumber = 0
 
 def stackImages(scale,imgArray):
     rows = len(imgArray)
@@ -46,12 +49,14 @@ def poseRecordCallback(location) :
 
     # currently focusing on appending to text file, although a pandas dataframe will be a more appropriate data structure for collecting recon data
     file = open('positions.csv', 'a')
-    file.write(str(location.pose.position.x) + ',' + str(location.pose.position.y) + '\n')
+    file.write(str(location.pose.position.x) + ',' + str(location.pose.position.y) + ',' + str(frameNumber) + '\n')
     file.close()
 
 def imageCallback(ros_image):
 
     global bridge
+    global frameNumber
+    global out
 
     try:
         img = bridge.imgmsg_to_cv2(ros_image, "bgr8")
@@ -61,42 +66,25 @@ def imageCallback(ros_image):
     ##############################################################
     # from this point on, 'img' is the target of processing
     ##############################################################
-    imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV) 
-
-    # currently, the target being detected is a coke can
-    # replace this subsection with bounding box classifier to detect trash at a later stage
-    hMin, sMin, vMin, hMax, sMax, vMax =  147 , 52 , 0 , 179 , 248 , 214
-    lower = np.array([hMin, sMin, vMin])  # minimum range array
-    upper = np.array([hMax, sMax, vMax])  # maximum range array
-    mask = cv2.inRange(imgHSV, lower, upper)
-
-    kernel = np.ones((5,5), np.uint8)
-    dilate = cv2.dilate(mask, kernel, iterations=1)
     
-    imgResult = img
+    # writing the frame to the video object
+    out.write(img) 
+    
+    # updating the frame number
+    frameNumber += 1
 
-    contours, hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE) # image, retrieval method (here, for outermost contours), approximation 
-    x, y, w, h = 0, 0, 0, 0
-
-    for cnt in contours : # contours - array of contours detected in image
-
-        area = cv2.contourArea(cnt) # finds area of selected contour
-        # cv2.drawContours(imgResult, cnt, -1, (255, 0, 0),3)  # image copy, selected contour, (-1 to draw all contours), color, thickness
-        perimeter = cv2.arcLength(cnt, True) # contour, is closed(?)
-        approx = cv2.approxPolyDP(cnt, 0.02 * perimeter, True) # contour, resolution, is closed(?)
-        x, y, w, h = cv2.boundingRect(cnt) # coordinates of each shape
-        cv2.rectangle(imgResult, (x,y), (x+w, y+h), (0, 255, 0), 2) # bounding rectangle (green for each detected shape)
-
-        # subsection to call a function to save the quadrotor pose 
-        pos = rospy.Subscriber("/ground_truth_to_tf/pose", PoseStamped, poseRecordCallback)
+    # subsection to call a function to save the quadrotor pose 
+    pos = rospy.Subscriber("/ground_truth_to_tf/pose", PoseStamped, poseRecordCallback)
         
     # imgStacked = stackImages(0.5, ([img, dilate, imgResult]))
-    cv2.imshow("Image", imgResult)
+    cv2.imshow("Image", img)
     ##############################################################
     cv2.waitKey(3)
 
   
 def main(args):
+
+    global out
 
     rospy.init_node('vision', anonymous=True)
 
@@ -119,6 +107,7 @@ def main(args):
     except KeyboardInterrupt:
         print("Shutting down")
 
+    out.release() 
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
