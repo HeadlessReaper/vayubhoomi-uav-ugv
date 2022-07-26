@@ -4,6 +4,7 @@ import sys
 import cv2
 import rospy
 import numpy as np
+import pandas as pd
 from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from geometry_msgs.msg import PoseStamped
@@ -48,8 +49,8 @@ def stackImages(scale,imgArray):
 def poseRecordCallback(location) :
 
     # currently focusing on appending to text file, although a pandas dataframe will be a more appropriate data structure for collecting recon data
-    file = open('positions.csv', 'a')
-    file.write(str(location.pose.position.x) + ',' + str(location.pose.position.y) + ',' + str(frameNumber) + '\n')
+    file = open('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/positions.csv', 'a')
+    file.write(str(frameNumber) + ',' + str(location.pose.position.x) + ',' + str(location.pose.position.y) + '\n')
     file.close()
 
 def imageCallback(ros_image):
@@ -66,7 +67,7 @@ def imageCallback(ros_image):
     ##############################################################
     # from this point on, 'img' is the target of processing
     ##############################################################
-    
+
     # writing the frame to the video object
     out.write(img) 
     
@@ -79,18 +80,19 @@ def imageCallback(ros_image):
     # imgStacked = stackImages(0.5, ([img, dilate, imgResult]))
     cv2.imshow("Image", img)
     ##############################################################
-    cv2.waitKey(3)
+    cv2.waitKey(1)
 
   
 def main(args):
 
     global out
+    global frameNumber
 
     rospy.init_node('vision', anonymous=True)
 
     # file initialization
-    file = open('positions.csv', 'a')
-    file.write('x,y\n')
+    file = open('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/positions.csv', 'a')
+    file.write('frameNumber,x,y\n')
     file.close()
 
     #`for turtlebot3 waffle
@@ -102,13 +104,17 @@ def main(args):
 
     image_sub = rospy.Subscriber(imageTopic,Image, imageCallback)
 
+    print("Press ctrl + c to trigger a KeyboardInterrupt.")
+
     try:
         rospy.spin()
     except KeyboardInterrupt:
-        print("Shutting down")
+        print("Shutting down.")
 
     out.release() 
     cv2.destroyAllWindows()
+    print("Shutdown complete.")
+    print(frameNumber)
 
 if __name__ == '__main__':
 
