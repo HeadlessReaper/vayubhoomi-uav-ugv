@@ -61,5 +61,5 @@ resources/GitCLIKey.txt
 
 # Dataset ignore
 src/vision/src/wasteTensorflow/dataset
-# src/vision/src/wasteTensorflow/models
+src/vision/src/wasteTensorflow/models
 src/vision/src/wasteTensorflow/trained-models
