@@ -29,7 +29,7 @@ errorhp=0
 integh=0
 global height
 
-vel_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
+vel_pub = rospy.Publisher('/quadrotor/cmd_vel', Twist, queue_size=1)
 
 def poseCallback(pose_message):
     global x
@@ -127,7 +127,7 @@ def go_to_goal(x_goal, y_goal,z_goal):
     global y, z,yaw
 
     velocity_message = Twist()
-    cmd_vel_topic='/cmd_vel'
+    cmd_vel_topic='/quadrotor/cmd_vel'
     pub=rospy.Publisher(cmd_vel_topic,Twist,queue_size=10)   
 
     #der = error - error_p
@@ -145,9 +145,9 @@ def go_to_goal(x_goal, y_goal,z_goal):
         Ki_vertical = 0.0001
         Kd_vertical = 1.5
         
-        kp = 0.3
-        ki=0.0001
-        kd=1.4
+        kp = 0.1
+        ki=0.00001
+        kd=1.2
 
         '''
         Kp_vertical = 10
@@ -183,7 +183,6 @@ def go_to_goal(x_goal, y_goal,z_goal):
         linear_speed = kp*distance+ki*integ+(kd*der)
         
 
-
         K_angular = 3
         desired_angle_goal = math.atan2(y_goal-y, x_goal-x)
         # if(desired_angle_goal-yaw>180):
@@ -200,10 +199,10 @@ def go_to_goal(x_goal, y_goal,z_goal):
         #velocity_message.linear.z = vertical_speed
         print('errorh',errorh,'Integ : ',integh, "derh :",derh, 'linear speed',linear_speed,"angular_speed",angular_speed,"yaw",yaw)
         
-        if(velocity_message.angular.z>0.01):
-             velocity_message.linear.x=0
-             velocity_message.linear.y=0
-             velocity_message.linear.z=0
+        # if(velocity_message.angular.z>0.01):
+        #      velocity_message.linear.x=0
+        #      velocity_message.linear.y=0
+        #      velocity_message.linear.z=0
 
         if ((x==x_goal and y==y_goal and z==z_goal) or ((0.98*x_goal<=x<=1.02*x_goal) and (0.98*y_goal<=y<=1.02*y_goal)and (0.98*z_goal<z<=1.02*z_goal)) ):
             print("*************")
@@ -234,22 +233,22 @@ def go_to_goal(x_goal, y_goal,z_goal):
 if __name__ == '__main__':
     try:
         rospy.init_node('autohector',anonymous=True)
-        veltop='/cmd_vel'
+        veltop='/quadrotor/cmd_vel'
         velpub=rospy.Publisher(veltop,Twist,queue_size=10)
-        postop='/ground_truth/state'
+        postop='/quadrotor/ground_truth/state'
         possub=rospy.Subscriber(postop,Odometry,poseCallback)
-        disttop ='/scan'
+        disttop ='/quadrotor/scan'
         #distsub=rospy.Subscriber(disttop,LaserScan,distCallback)
         time.sleep(1)
         up()
-        sleep(2)
+        sleep(1)
         hover()
-        go_to_goal(1,2,1)
+        go_to_goal(1,2,5)
         i=1
         j=2
         k=1
 
-        for g in range(6,1,-1):
+        for g in range(30,-30,-1):
             for h in range(1,5):
                 if h%2==1:
                     if h%3==0:
