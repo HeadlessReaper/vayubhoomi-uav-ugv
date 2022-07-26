@@ -11,7 +11,7 @@ from cv_bridge import CvBridge, CvBridgeError
 
 bridge = CvBridge()
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('video.mp4', fourcc, 20.0, (640, 480))
+out = cv2.VideoWriter('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/wasteTensorflow/video.mp4', fourcc, 20.0, (640, 480))
 frameNumber = 0
 
 def stackImages(scale,imgArray):
