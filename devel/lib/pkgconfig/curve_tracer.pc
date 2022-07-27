@@ -1,0 +1,8 @@
+prefix=/home/pramuk/Desktop/UAV-UGV/vayubhoomi-uav-ugv/catkin_ws/devel
+
+Name: curve_tracer
+Description: Description of curve_tracer
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

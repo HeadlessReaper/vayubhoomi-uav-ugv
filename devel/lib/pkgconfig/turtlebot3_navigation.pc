@@ -1,0 +1,8 @@
+prefix=/home/pramuk/Desktop/UAV-UGV/vayubhoomi-uav-ugv/catkin_ws/devel
+
+Name: turtlebot3_navigation
+Description: Description of turtlebot3_navigation
+Version: 1.2.6
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

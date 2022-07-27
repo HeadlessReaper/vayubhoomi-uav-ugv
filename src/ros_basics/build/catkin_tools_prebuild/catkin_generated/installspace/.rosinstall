@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/pramuk/catkin_ws/src/ros_basics/install/setup.sh

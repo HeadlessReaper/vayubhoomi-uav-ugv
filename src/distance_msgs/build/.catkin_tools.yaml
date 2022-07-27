@@ -1,0 +1,6 @@
+devel_space: /home/pramuk/catkin_ws/src/distance_msgs/devel
+install: false
+install_space: /home/pramuk/catkin_ws/src/distance_msgs/install
+profile: default
+source_space: /home/pramuk/catkin_ws/src/distance_msgs/src
+workspace: /home/pramuk/catkin_ws/src/distance_msgs

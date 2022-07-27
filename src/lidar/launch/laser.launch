@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<launch>
+    <env name="GAZEBO_MODEL_PATH" value="$(find lidar)/models"/>
+
+    <arg name="extra_gazebo_args" default="--verbose"/>
+
+      <!-- Start Gazebo with wg world running in (max) realtime -->    
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find lidar)/worlds/baylands.world"/>
+        <arg name="extra_gazebo_args" value="$(arg extra_gazebo_args)"/>
+    </include>
+
+    <group ns ="quadrotor">
+        <param name="tf_prefix" value="drone_tf" />
+    <!-- Spawn simulated quadrotor uav -->
+        <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch" >
+            <arg name="model" value="$(find hector_quadrotor_description)/urdf/quadrotor_hokuyo_utm30lx.gazebo.xacro"/>
+            <arg name="x" default="0"/>
+            <arg name="z" default="0.1"/>
+        </include>
+    </group>
+
+    <group ns ="turtlebot">
+        <param name="tf_prefix" value="turtlebot_tf" />
+        <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+        <arg name="x_pos" default="1"/>
+        <arg name="y_pos" default="0.5"/>
+        <arg name="z_pos" default="0.15"/>
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro" />
+        <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" args="-urdf -model turtlebot3_$(arg model) -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />
+    </group> 
+
+    <node name="rabbitposer" pkg="lidar" type="botmove.py" output="screen"> 
+    </node>
+    <node pkg="lidar" type="dronespiral.py" name="autohector" output="screen">
+    </node>
+
+</launch>
