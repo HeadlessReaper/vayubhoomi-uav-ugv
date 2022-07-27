@@ -63,3 +63,6 @@ resources/GitCLIKey.txt
 src/vision/src/wasteTensorflow/models
 src/vision/src/wasteTensorflow/dataset
 src/vision/src/wasteTensorflow/trained-models
+
+# VSCode ignore
+.vscode
