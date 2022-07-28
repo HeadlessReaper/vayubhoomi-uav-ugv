@@ -82,7 +82,7 @@ def rotate (angular_speed_degree, relative_angle_degree, clockwise):
 
     angle_moved = 0.0
     loop_rate = rospy.Rate(10) # we publish the velocity at 10 Hz (10 times a second)    
-    cmd_vel_topic='/cmd_vel'
+    cmd_vel_topic='/turtlebot/cmd_vel'
     velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size=5)
 
     t0 = rospy.Time.now().to_sec()
@@ -119,7 +119,7 @@ def go_to_goal(x_goal, y_goal):
     global y, yaw
 
     velocity_message = Twist()
-    cmd_vel_topic='/cmd_vel'
+    cmd_vel_topic='/turtlebot/cmd_vel'
     pub=rospy.Publisher(cmd_vel_topic,Twist,queue_size=10)   
 
     slope=y_goal/x_goal
@@ -203,15 +203,15 @@ def go_to_goal(x_goal, y_goal):
 if __name__ == '__main__':
     try:
         rospy.init_node('rabbitposer',anonymous=False)
-        veltop='/cmd_vel'
+        veltop='/turtlebot/cmd_vel'
         velpub=rospy.Publisher(veltop,Twist,queue_size=10)
-        postop='/odom'
+        postop='/turtlebot/odom'
         possub=rospy.Subscriber(postop,Odometry,poseCallback)
-        disttop='/scan'
+        disttop='/turtlebot/scan'
         distsub=rospy.Subscriber(disttop,LaserScan,distCallback)
         time.sleep(1)
         #move(0.2,0.35,True)
-        l=[(1.75,0.5)]
+        l=[(1.75,7)]
         for (i,j) in l:
             go_to_goal(i,j)
             print("next stop")

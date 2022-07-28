@@ -3,17 +3,15 @@
 #traverse the perimeter of the rectangle by moving from corner to corner using a PID controller
 
 import math
-from turtle import distance
-from numpy import where
 import rospy
 from time import sleep
+from lidar.msg import vel
 from std_msgs.msg import Empty
 from nav_msgs.msg import Odometry
 import time
 from std_srvs.srv import Empty
 from geometry_msgs.msg import Twist
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
-import warnings
 from sensor_msgs.msg import LaserScan
 
 x=0
@@ -41,12 +39,6 @@ def poseCallback(pose_message):
     x= round(pose_message.pose.pose.position.x,2)
     y= round(pose_message.pose.pose.position.y,2)
     z=round(pose_message.pose.pose.position.z,2)
-'''    
-def distCallback(msg):
-    global dist1
-    dist1=msg.ranges[0]
-    print(" Distance from scan topic : ",dist1)
-    '''
 
 def initMessage(vx,vy,vz,vaz):
     vel_msg = Twist()
@@ -59,9 +51,7 @@ def initMessage(vx,vy,vz,vaz):
     vel_pub.publish(vel_msg)
 
 def up():
-    vel_msg = Twist()
-    vel_msg.linear.z = float(1.0)
-    vel_pub.publish(vel_msg)
+    initMessage(1,0,0,0)
 
 def hover():
     initMessage(0.0,0.0,0.0,0.0)
@@ -101,26 +91,20 @@ def ccw():
     vel_msg.angular.z = float(1.0)
     vel_pub.publish(vel_msg)
 
-'''def rectangle(x_goal, y_goal):
-    global x
-    global y
-    global z,yaw
-    
-
-    vel_msg = Twist()
-    cmd_vel_topic='/cmd_vel'
-    pub=rospy.Publisher(cmd_vel_topic, Twist, queue_size=10)
-
-    while(True):
-        K_linear = 0.1
-        distance = round(abs(math.sqrt(((x_goal-x) * 2) + ((y_goal-y) * 2))),2)
-        linear_speed = distance*K_linear
-        vel_msg.linear.x = linear_speed
-        vel_pub.publish(vel_msg)
-
-        if (distance <0.01):
-            break
-'''
+def call_obs(data_obs):
+    vmsg=Twist()
+    pub = rospy.Publisher('/quadrotor/cmd_vel', Twist, queue_size=10)
+    # If it receives non-zero velocities, an obstacle is present
+    if data_obs.linear_x != 0 or data_obs.linear_y != 0 or data_obs.linear_z != 0:
+        obs = True
+    else:
+        obs = False
+    if (obs == True):
+        # If obstacle is present, respective velocities are copied and published
+        vmsg.linear.x = data_obs.linear_x
+        vmsg.linear.y = data_obs.linear_y
+        vmsg.linear.z = data_obs.linear_z
+        pub.publish(vmsg)
 
 def go_to_goal(x_goal, y_goal,z_goal):
     global x, distp , errorp,errorhp,integh,derh,height
@@ -129,6 +113,7 @@ def go_to_goal(x_goal, y_goal,z_goal):
     velocity_message = Twist()
     cmd_vel_topic='/quadrotor/cmd_vel'
     pub=rospy.Publisher(cmd_vel_topic,Twist,queue_size=10)   
+    obssub=rospy.Subscriber('play',vel,call_obs)
 
     #der = error - error_p
     # velocity_message.linear.y = -((kp*error) + (ki*integ) + (kd*der)) 
@@ -237,18 +222,16 @@ if __name__ == '__main__':
         velpub=rospy.Publisher(veltop,Twist,queue_size=10)
         postop='/quadrotor/ground_truth/state'
         possub=rospy.Subscriber(postop,Odometry,poseCallback)
-        disttop ='/quadrotor/scan'
-        #distsub=rospy.Subscriber(disttop,LaserScan,distCallback)
-        time.sleep(1)
+  
         up()
-        sleep(1)
+        sleep(0.5)
         hover()
-        go_to_goal(1,2,5)
+        go_to_goal(1,2,0.8)
         i=1
         j=2
         k=1
 
-        for g in range(30,-30,-1):
+        for g in range(6,-6,-1):
             for h in range(1,5):
                 if h%2==1:
                     if h%3==0:
