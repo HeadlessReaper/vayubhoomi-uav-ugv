@@ -66,4 +66,4 @@ src/vision/src/wasteTensorflow/trained-models
 src/vision/src/wasteTensorflow/video.mp4
 
 # VSCode ignore
-/.vscode
+.vscode
