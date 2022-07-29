@@ -1,11 +1,11 @@
 # this node takes an input stream from the camera feed and records the ground location of the drone in areas with detected targets
 
-import tf
 import sys
 import cv2
+import math
 import rospy
-import numpy as np
-import pandas as pd
+import tf as transform
+from sklearn.cluster import KMeans
 from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from geometry_msgs.msg import PoseStamped
@@ -119,10 +119,19 @@ curTime = time.time() # initializing the starting time
 fps = 0 # initializing the frame rate variable
 
 frameNumber = 0
+numObj = 0
 def poseRecordCallback(location) :
 
+    global frameNumber
+    global numObj
+
+    # quaternion transformation to get yaw angle 
+    quaternion = (location.pose.pose.orientation.x, location.pose.pose.orientation.y, location.pose.pose.orientation.z, location.pose.pose.orientation.w)
+    euler = transform.transformations.euler_from_quaternion(quaternion)
+    yaw = math.degrees(euler[2])
+
     file = open('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/wasteTensorflow/UGVTargetAngles.csv', 'a')
-    file.write(str(frameNumber) + ',' + str(location.pose.pose.orientation.x) + '\n')
+    file.write(str(frameNumber) + ',' + str(yaw) + ',' + str(numObj) + '\n')
     file.close()
 
 def imageCallback(ros_image):
@@ -131,6 +140,7 @@ def imageCallback(ros_image):
     global curTime
     global fps
     global frameNumber
+    global numObj
 
     try:
         img = bridge.imgmsg_to_cv2(ros_image, "bgr8")
@@ -163,6 +173,8 @@ def imageCallback(ros_image):
         pos = rospy.Subscriber("/odom", Odometry, poseRecordCallback)
 
     cv2.putText(img, '{0:d}'.format(numObj), (10, 85), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (100, 255, 0), 1, cv2.LINE_AA)
+    cv2.putText(img, '{0:d}'.format(frameNumber), (10, 115), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (100, 255, 0), 1, cv2.LINE_AA)
+
 
     frameNumber += 1
     cv2.imshow("feed", img)
@@ -178,11 +190,6 @@ def main(args):
 
     rospy.init_node('UGVVision', anonymous=True)
 
-    # file initialization
-    file = open('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/positions.csv', 'a')
-    file.write('frameNumber,x,y\n')
-    file.close()
-
     #`for turtlebot3 waffle
     # image_topic="/camera/rgb/image_raw"
     # for usb cam
@@ -194,7 +201,7 @@ def main(args):
     image_sub = rospy.Subscriber(image_topic,Image, imageCallback)
 
     file = open('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/wasteTensorflow/UGVTargetAngles.csv', 'w')
-    file.write('frameNumber, angle\n')
+    file.write('frameNumber,angle,numObj\n')
     file.close()
 
     print("Press ctrl + c to trigger a KeyboardInterrupt.")
@@ -205,6 +212,15 @@ def main(args):
         print("Shutting down.")
 
     cv2.destroyAllWindows()
+
+    print("\nPre-processing data ...")
+    df = pd.read_csv('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/wasteTensorflow/UGVTargetAngles.csv')
+    df = df[df['numObj'] != '0'] # dropping angles with 0 objects detected
+    df = df.drop_duplicates(subset=['frameNumber'], keep='first') # eliminating duplicates
+    df.sort_values(by=['numObj'], inplace = True, ascending=False) # sort in descending to imply priority
+    df.to_csv('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/wasteTensorflow/UGVTargetAngles.csv', index=False)
+    print("\nData pre-processing complete.")
+
     print("\nShutdown complete.")
 
 if __name__ == '__main__':
