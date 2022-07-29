@@ -1,5 +1,6 @@
 # this node takes an input stream from the camera feed and records the ground location of the drone in areas with detected targets
 
+import tf
 import sys
 import cv2
 import rospy
@@ -8,6 +9,7 @@ import pandas as pd
 from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from geometry_msgs.msg import PoseStamped
+from nav_msgs.msg import Odometry
 from cv_bridge import CvBridge, CvBridgeError
 
 import time
@@ -116,11 +118,11 @@ detection_graph = reconstruct("/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/v
 curTime = time.time() # initializing the starting time
 fps = 0 # initializing the frame rate variable
 
+frameNumber = 0
 def poseRecordCallback(location) :
 
-    # currently focusing on appending to text file, although a pandas dataframe will be a more appropriate data structure for collecting recon data
-    file = open('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/positions.csv', 'a')
-    file.write(str(frameNumber) + ',' + str(location.pose.position.x) + ',' + str(location.pose.position.y) + '\n')
+    file = open('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/wasteTensorflow/UGVTargetAngles.csv', 'a')
+    file.write(str(frameNumber) + ',' + str(location.pose.pose.orientation.x) + '\n')
     file.close()
 
 def imageCallback(ros_image):
@@ -128,6 +130,7 @@ def imageCallback(ros_image):
     global bridge
     global curTime
     global fps
+    global frameNumber
 
     try:
         img = bridge.imgmsg_to_cv2(ros_image, "bgr8")
@@ -155,8 +158,13 @@ def imageCallback(ros_image):
     else:
         pass
 
+    if numObj > 0:
+        # subsection to conditionally call a function to save the turtlebot3 pose 
+        pos = rospy.Subscriber("/odom", Odometry, poseRecordCallback)
+
     cv2.putText(img, '{0:d}'.format(numObj), (10, 85), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (100, 255, 0), 1, cv2.LINE_AA)
 
+    frameNumber += 1
     cv2.imshow("feed", img)
     ##############################################################
     fps = 1 / (time.time() - curTime)
@@ -168,7 +176,7 @@ def main(args):
 
     global frameNumber
 
-    rospy.init_node('vision', anonymous=True)
+    rospy.init_node('UGVVision', anonymous=True)
 
     # file initialization
     file = open('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/positions.csv', 'a')
@@ -176,13 +184,18 @@ def main(args):
     file.close()
 
     #`for turtlebot3 waffle
-    #`image_topic="/camera/rgb/image_raw/compressed"
-    #`for usb cam
-    #`image_topic = "/usb_cam/image_raw"
-    #`for hector quadrotor
-    imageTopic = "/front_cam/camera/image"
+    # image_topic="/camera/rgb/image_raw"
+    # for usb cam
+    # image_topic = "/usb_cam/image_raw"
+    # for hector quadrotor
+    # imageTopic = "/front_cam/camera/image"
 
-    image_sub = rospy.Subscriber(imageTopic,Image, imageCallback)
+    image_topic="/camera/rgb/image_raw"
+    image_sub = rospy.Subscriber(image_topic,Image, imageCallback)
+
+    file = open('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/wasteTensorflow/UGVTargetAngles.csv', 'w')
+    file.write('frameNumber, angle\n')
+    file.close()
 
     print("Press ctrl + c to trigger a KeyboardInterrupt.")
 

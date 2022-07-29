@@ -88,7 +88,7 @@ def main(args):
     global out
     global frameNumber
 
-    rospy.init_node('vision', anonymous=True)
+    rospy.init_node('UAVRecordRaw', anonymous=True)
 
     # file initialization
     file = open('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/positions.csv', 'a')
