@@ -9,6 +9,7 @@ from lidar.msg import vel
 from std_msgs.msg import Empty
 from nav_msgs.msg import Odometry
 import time
+from numpy import *
 from std_srvs.srv import Empty
 from geometry_msgs.msg import Twist
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
@@ -130,7 +131,7 @@ def go_to_goal(x_goal, y_goal,z_goal):
         Ki_vertical = 0.0001
         Kd_vertical = 1.5
         
-        kp = 0.1
+        kp = 0.2
         ki=0.00001
         kd=1.2
 
@@ -231,26 +232,35 @@ if __name__ == '__main__':
         j=2
         k=1
 
-        for g in range(6,-6,-1):
-            for h in range(1,5):
-                if h%2==1:
-                    if h%3==0:
-                        j=j-g+1
-                        print(i,j,h)
-                        go_to_goal(i,j,k)
-                    else:
-                        j=j+g-1
-                        print(i,j,h)
-                        go_to_goal(i,j,k)
-                elif h%2==0:
-                    if h%4==0:
-                        i=i-g+1
-                        print(i,j,h)
-                        go_to_goal(i,j,k)
-                    else:
-                        i=i+g-1
-                        print(i,j,h)
-                        go_to_goal(i,j,k)
+        r = linspace(0,40,40)
+        t = linspace(0,2000,40)
+        for x,y in zip(r,t):
+            i = x*cos(radians(y))
+            j = x*sin(radians(y))
+            go_to_goal(round(i,1),round(j,1),k)
+
+
+        #go_to_goal(x,y,k)
+        # for g in range(-6,6,1):
+        #     for h in range(1,5):
+        #         if h%2==1:
+        #             if h%3==0:
+        #                 j=j-g+2
+        #                 print(i,j,h)
+        #                 go_to_goal(i,j,k)
+        #             else:
+        #                 j=j+g-1
+        #                 print(i,j,h)
+        #                 go_to_goal(i,j,k)
+        #         elif h%2==0:
+        #             if h%4==0:
+        #                 i=i-g+2
+        #                 print(i,j,h)
+        #                 go_to_goal(i,j,k)
+        #             else:
+        #                 i=i+g-1
+        #                 print(i,j,h)
+        #                 go_to_goal(i,j,k)
 
             
 
