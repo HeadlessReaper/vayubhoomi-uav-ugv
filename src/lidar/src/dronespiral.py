@@ -52,7 +52,9 @@ def initMessage(vx,vy,vz,vaz):
     vel_pub.publish(vel_msg)
 
 def up():
-    initMessage(1,0,0,0)
+    vel_msg = Twist()
+    vel_msg.linear.z = float(1.0)
+    vel_pub.publish(vel_msg)
 
 def hover():
     initMessage(0.0,0.0,0.0,0.0)
@@ -82,17 +84,9 @@ def left():
     vel_msg.linear.y = float(1.0)
     vel_pub.publish(vel_msg)
 
-def cw():
-    vel_msg = Twist()
-    vel_msg.angular.z = float(-1.0)
-    vel_pub.publish(vel_msg)
-
-def ccw():
-    vel_msg = Twist()
-    vel_msg.angular.z = float(1.0)
-    vel_pub.publish(vel_msg)
 
 def call_obs(data_obs):
+    print('in call obs function')
     vmsg=Twist()
     pub = rospy.Publisher('/quadrotor/cmd_vel', Twist, queue_size=10)
     # If it receives non-zero velocities, an obstacle is present
@@ -113,13 +107,16 @@ def go_to_goal(x_goal, y_goal,z_goal):
 
     velocity_message = Twist()
     cmd_vel_topic='/quadrotor/cmd_vel'
-    pub=rospy.Publisher(cmd_vel_topic,Twist,queue_size=10)   
-    obssub=rospy.Subscriber('play',vel,call_obs)
-
+    pub=rospy.Publisher(cmd_vel_topic,Twist,queue_size=10)
+    print('gotogoal function') 
+    
+    print('after call_obs function') 
     #der = error - error_p
     # velocity_message.linear.y = -((kp*error) + (ki*integ) + (kd*der)) 
     #distref=round(abs(math.sqrt(((x_goal-0) * 2) + ((y_goal-0) * 2))),2)
     while (True):
+        
+        obssub=rospy.Subscriber('/play',vel,call_obs)
         global integ,heightp
         '''
         kp = 0.5
@@ -131,9 +128,9 @@ def go_to_goal(x_goal, y_goal,z_goal):
         Ki_vertical = 0.0001
         Kd_vertical = 1.5
         
-        kp = 0.2
+        kp = 0.21
         ki=0.00001
-        kd=1.2
+        kd=1.15
 
         '''
         Kp_vertical = 10
@@ -224,12 +221,14 @@ if __name__ == '__main__':
         postop='/quadrotor/ground_truth/state'
         possub=rospy.Subscriber(postop,Odometry,poseCallback)
   
-        up()
+        vel_msg = Twist()
+        vel_msg.linear.z = float(1.0)
+        vel_pub.publish(vel_msg)
+
         sleep(0.5)
+
         hover()
-        go_to_goal(1,2,0.8)
-        i=1
-        j=2
+          
         k=1
 
         r = linspace(0,40,40)

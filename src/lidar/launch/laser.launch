@@ -13,7 +13,7 @@
     <!-- Spawn simulated quadrotor uav -->
         <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch" >
             <arg name="model" value="$(find hector_quadrotor_description)/urdf/quadrotor_hokuyo_utm30lx.gazebo.xacro"/>
-            <arg name="x" default="6"/>
+            <arg name="x" default="0"/>
             <arg name="z" default="0.4"/>
         </include>
     </group>
@@ -32,5 +32,7 @@
     </node>
     <node pkg="lidar" type="dronespiral.py" name="autohector" output="screen">
     </node>
+    <!-- <node pkg="lidar" type="droneobsavoid.py" name="listener" output="screen">
+    </node> -->
 
 </launch>

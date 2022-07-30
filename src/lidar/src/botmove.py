@@ -87,7 +87,7 @@ def rotate (angular_speed_degree, relative_angle_degree, clockwise):
 
     t0 = rospy.Time.now().to_sec()
 
-    while ((next((True for elem in dist5 if elem <0.2), False)==False)and (next((True for elem in dist6 if elem <0.2), False)==False )) :
+    while ((next((True for elem in dist5 if elem <0.3), False)==False)and (next((True for elem in dist6 if elem <0.3), False)==False )) :
         print("Turtlesim rotates")
         velocity_publisher.publish(vmsg)
 
@@ -126,7 +126,7 @@ def go_to_goal(x_goal, y_goal):
 
     while (True):
         global integ,dist2,dist3
-        kp =0.25
+        kp =0.15
         ki=0.000004
         kd=1.3
 
@@ -156,11 +156,11 @@ def go_to_goal(x_goal, y_goal):
             pub.publish(velocity_message)
             break
 
-        elif(next((True for elem in dist1 if elem <0.32), False)):
+        elif(next((True for elem in dist1 if elem <0.7), False)):
             print('******************** obstacle on left ********************')
             #print('dist1 :',dist1,'dist2 :',dist2,'dist3 :' ,dist3)
             print("linear speed",linear_speed)
-            if (next((True for elem in dist1 if elem <0.2), False)):
+            if (next((True for elem in dist1 if elem <0.4), False)):
                 print('less than 0.2')
                 velocity_message.linear.x=-0.65
                 pub.publish(velocity_message) 
@@ -176,11 +176,11 @@ def go_to_goal(x_goal, y_goal):
                 time.sleep(0.35)
                 errorp=error
 
-        elif(next((True for elem in dist2 if elem <0.32), False)):
+        elif(next((True for elem in dist2 if elem <0.7), False)):
             print('******************** obstacle on right *******************')
             #print('dist :',min(dist1,dist2,dist3))
             print("linear speed",linear_speed)
-            if (next((True for elem in dist2 if elem <0.2), False)):
+            if (next((True for elem in dist2 if elem <0.4), False)):
                 velocity_message.linear.x=-0.65
                 pub.publish(velocity_message)
                 time.sleep(0.4)
@@ -211,7 +211,7 @@ if __name__ == '__main__':
         distsub=rospy.Subscriber(disttop,LaserScan,distCallback)
         time.sleep(1)
         #move(0.2,0.35,True)
-        l=[(1.75,7)]
+        l=[(1.75,7),(-2,-5.5)]
         for (i,j) in l:
             go_to_goal(i,j)
             print("next stop")
