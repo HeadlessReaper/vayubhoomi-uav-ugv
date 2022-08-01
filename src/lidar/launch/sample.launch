@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find hector_gazebo_worlds)/worlds/rolling_landscape_120m.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="0.1"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+    <group ns ="quadrotor">
+        <param name="tf_prefix" value="drone_tf" />
+        <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch" >
+            <arg name="model" value="$(find hector_quadrotor_description)/urdf/quadrotor_hokuyo_utm30lx.gazebo.xacro"/>
+        </include>
+        <node pkg="lidar" type="droneobsavoid.py" name="listener" output="screen">
+        </node>
+        <node pkg="lidar" type="dronespiral.py" name="autohector" output="screen">
+        </node>
+    </group>    
+</launch>      

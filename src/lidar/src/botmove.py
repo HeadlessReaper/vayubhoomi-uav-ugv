@@ -161,19 +161,19 @@ def go_to_goal(x_goal, y_goal):
             #print('dist1 :',dist1,'dist2 :',dist2,'dist3 :' ,dist3)
             print("linear speed",linear_speed)
             if (next((True for elem in dist1 if elem <0.4), False)):
-                print('less than 0.2')
+                print('less than 0.4')
                 velocity_message.linear.x=-0.65
                 pub.publish(velocity_message) 
                 time.sleep(0.4)
                 rotate(10,40,True)
                 errorp=error
             else:
-                print('less than 0.4')
+                print('less than 0.7')
                 rotate(10,40,True)
                 velocity_message.linear.x =0.707*linear_speed
                 #velocity_message.angular.z = -angular_speed
                 pub.publish(velocity_message)
-                time.sleep(0.35)
+                time.sleep(0.4)
                 errorp=error
 
         elif(next((True for elem in dist2 if elem <0.7), False)):
@@ -191,7 +191,7 @@ def go_to_goal(x_goal, y_goal):
                 velocity_message.linear.x = 0.707*linear_speed
                 #velocity_message.angular.z = angular_speed
                 pub.publish(velocity_message)
-                time.sleep(0.35)
+                time.sleep(0.4)
                 errorp=error
 
         else:
@@ -211,7 +211,7 @@ if __name__ == '__main__':
         distsub=rospy.Subscriber(disttop,LaserScan,distCallback)
         time.sleep(1)
         #move(0.2,0.35,True)
-        l=[(1.75,7),(-2,-5.5)]
+        l=[(-1.75,7),(-2,-5.5)]
         for (i,j) in l:
             go_to_goal(i,j)
             print("next stop")

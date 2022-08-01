@@ -28,11 +28,12 @@
         <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" args="-urdf -model turtlebot3_$(arg model) -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />
     </group> 
 
-    <node name="rabbitposer" pkg="lidar" type="botmove.py" output="screen"> 
-    </node>
     <node pkg="lidar" type="dronespiral.py" name="autohector" output="screen">
     </node>
-    <!-- <node pkg="lidar" type="droneobsavoid.py" name="listener" output="screen">
-    </node> -->
+    <node pkg="lidar" type="droneobsavoid.py" name="listener" output="screen">
+    </node>
+    <node name="rabbitposer" pkg="lidar" type="botmove.py" output="screen"> 
+    </node>
+
 
 </launch>

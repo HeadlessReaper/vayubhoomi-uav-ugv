@@ -6,11 +6,9 @@ import math
 import rospy
 from time import sleep
 from lidar.msg import vel
-from std_msgs.msg import Empty
 from nav_msgs.msg import Odometry
 import time
 from numpy import *
-from std_srvs.srv import Empty
 from geometry_msgs.msg import Twist
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 from sensor_msgs.msg import LaserScan
@@ -59,43 +57,16 @@ def up():
 def hover():
     initMessage(0.0,0.0,0.0,0.0)
 
-def down():
-    vel_msg = Twist()
-    vel_msg.linear.z = float(-1.0)
-    vel_pub.publish(vel_msg)
-
-def forward():
-    vel_msg = Twist()
-    vel_msg.linear.x = float(1.0)
-    vel_pub.publish(vel_msg)
-
-def backward():
-    vel_msg = Twist()
-    vel_msg.linear.x = float(-1.0)
-    vel_pub.publish(vel_msg)
-
-def right():
-    vel_msg = Twist()
-    vel_msg.linear.y = float(-1.0)
-    vel_pub.publish(vel_msg)
-
-def left():
-    vel_msg = Twist()
-    vel_msg.linear.y = float(1.0)
-    vel_pub.publish(vel_msg)
-
-
 def call_obs(data_obs):
     print('in call obs function')
     vmsg=Twist()
     pub = rospy.Publisher('/quadrotor/cmd_vel', Twist, queue_size=10)
     # If it receives non-zero velocities, an obstacle is present
-    if data_obs.linear_x != 0 or data_obs.linear_y != 0 or data_obs.linear_z != 0:
-        obs = True
+    if data_obs.linear_x == 0.0 and data_obs.linear_y == 0.0 and data_obs.linear_z == 0.0:
+        print('obs linearx 0')
+
     else:
-        obs = False
-    if (obs == True):
-        # If obstacle is present, respective velocities are copied and published
+        print('obs true',data_obs.linear_x,data_obs.linear_y,data_obs.linear_z)
         vmsg.linear.x = data_obs.linear_x
         vmsg.linear.y = data_obs.linear_y
         vmsg.linear.z = data_obs.linear_z
@@ -109,14 +80,13 @@ def go_to_goal(x_goal, y_goal,z_goal):
     cmd_vel_topic='/quadrotor/cmd_vel'
     pub=rospy.Publisher(cmd_vel_topic,Twist,queue_size=10)
     print('gotogoal function') 
-    
+    obssub=rospy.Subscriber('/play',vel,call_obs)
     print('after call_obs function') 
     #der = error - error_p
     # velocity_message.linear.y = -((kp*error) + (ki*integ) + (kd*der)) 
     #distref=round(abs(math.sqrt(((x_goal-0) * 2) + ((y_goal-0) * 2))),2)
-    while (True):
+    while (True):        
         
-        obssub=rospy.Subscriber('/play',vel,call_obs)
         global integ,heightp
         '''
         kp = 0.5
@@ -124,6 +94,7 @@ def go_to_goal(x_goal, y_goal,z_goal):
         kd=1.4
         '''
         
+
         Kp_vertical = 1.2
         Ki_vertical = 0.0001
         Kd_vertical = 1.5
@@ -180,7 +151,7 @@ def go_to_goal(x_goal, y_goal,z_goal):
         velocity_message.linear.z = vertical_speed
         velocity_message.angular.z = angular_speed
         #velocity_message.linear.z = vertical_speed
-        print('errorh',errorh,'Integ : ',integh, "derh :",derh, 'linear speed',linear_speed,"angular_speed",angular_speed,"yaw",yaw)
+        #print('errorh',errorh,'Integ : ',integh, "derh :",derh, 'linear speed',linear_speed,"angular_speed",angular_speed,"yaw",yaw)
         
         # if(velocity_message.angular.z>0.01):
         #      velocity_message.linear.x=0
@@ -194,7 +165,7 @@ def go_to_goal(x_goal, y_goal,z_goal):
             velocity_message.linear.z=0
             velocity_message.angular.z=0
             pub.publish(velocity_message)
-            time.sleep(1)
+            #time.sleep(0.25)
             break
         else:
             pub.publish(velocity_message)
@@ -213,31 +184,35 @@ def go_to_goal(x_goal, y_goal,z_goal):
             go_to_goal(5,2)
         '''
 
+def receiver():
+    rospy.init_node('autohector',anonymous=True)
+    veltop='/quadrotor/cmd_vel'
+    velpub=rospy.Publisher(veltop,Twist,queue_size=10)
+    postop='/quadrotor/ground_truth/state'
+    possub=rospy.Subscriber(postop,Odometry,poseCallback)
+    
+
+    vel_msg = Twist()
+    vel_msg.linear.z = float(1.0)
+    velpub.publish(vel_msg)
+
+    hover()
+        
+    k=6
+
+    r = linspace(0,40,40)
+    t = linspace(0,2000,40)
+    for x,y in zip(r,t):
+        i = x*cos(radians(y))
+        j = x*sin(radians(y))
+        go_to_goal(round(i,1),round(j,1),k)
+        print('***************')
+
+    rospy.spin()
+
+
 if __name__ == '__main__':
-    try:
-        rospy.init_node('autohector',anonymous=True)
-        veltop='/quadrotor/cmd_vel'
-        velpub=rospy.Publisher(veltop,Twist,queue_size=10)
-        postop='/quadrotor/ground_truth/state'
-        possub=rospy.Subscriber(postop,Odometry,poseCallback)
-  
-        vel_msg = Twist()
-        vel_msg.linear.z = float(1.0)
-        vel_pub.publish(vel_msg)
-
-        sleep(0.5)
-
-        hover()
-          
-        k=1
-
-        r = linspace(0,40,40)
-        t = linspace(0,2000,40)
-        for x,y in zip(r,t):
-            i = x*cos(radians(y))
-            j = x*sin(radians(y))
-            go_to_goal(round(i,1),round(j,1),k)
-
+    receiver()
 
         #go_to_goal(x,y,k)
         # for g in range(-6,6,1):
@@ -263,5 +238,5 @@ if __name__ == '__main__':
 
             
 
-    except rospy.ROSInterruptException:
-        rospy.loginfo("node terminated.")
+    # except rospy.ROSInterruptException:
+    #     rospy.loginfo("node terminated.")
