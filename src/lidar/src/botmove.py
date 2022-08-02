@@ -128,7 +128,7 @@ def go_to_goal(x_goal, y_goal):
         global integ,dist2,dist3
         kp =0.15
         ki=0.000004
-        kd=1.3
+        kd=1.01
 
         distance = round(abs(math.sqrt(((x_goal-x) ** 2) + ((y_goal-y) ** 2))),2)
         # distyex=round(abs(math.sqrt(((x_goal-x) ** 2) + ((y_goal-(slope*x)) ** 2))),2)
