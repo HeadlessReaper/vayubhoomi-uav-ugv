@@ -82,12 +82,12 @@ def rotate (angular_speed_degree, relative_angle_degree, clockwise):
 
     angle_moved = 0.0
     loop_rate = rospy.Rate(10) # we publish the velocity at 10 Hz (10 times a second)    
-    cmd_vel_topic='/cmd_vel'
+    cmd_vel_topic='/turtlebot/cmd_vel'
     velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size=5)
 
     t0 = rospy.Time.now().to_sec()
 
-    while ((next((True for elem in dist5 if elem <0.2), False)==False)and (next((True for elem in dist6 if elem <0.2), False)==False )) :
+    while ((next((True for elem in dist5 if elem <0.3), False)==False)and (next((True for elem in dist6 if elem <0.3), False)==False )) :
         print("Turtlesim rotates")
         velocity_publisher.publish(vmsg)
 
@@ -119,14 +119,14 @@ def go_to_goal(x_goal, y_goal):
     global y, yaw
 
     velocity_message = Twist()
-    cmd_vel_topic='/cmd_vel'
+    cmd_vel_topic='/turtlebot/cmd_vel'
     pub=rospy.Publisher(cmd_vel_topic,Twist,queue_size=10)   
 
     slope=y_goal/x_goal
 
     while (True):
         global integ,dist2,dist3
-        kp =0.25
+        kp =0.15
         ki=0.000004
         kd=1.3
 
@@ -156,31 +156,31 @@ def go_to_goal(x_goal, y_goal):
             pub.publish(velocity_message)
             break
 
-        elif(next((True for elem in dist1 if elem <0.32), False)):
+        elif(next((True for elem in dist1 if elem <0.7), False)):
             print('******************** obstacle on left ********************')
             #print('dist1 :',dist1,'dist2 :',dist2,'dist3 :' ,dist3)
             print("linear speed",linear_speed)
-            if (next((True for elem in dist1 if elem <0.2), False)):
-                print('less than 0.2')
+            if (next((True for elem in dist1 if elem <0.4), False)):
+                print('less than 0.4')
                 velocity_message.linear.x=-0.65
                 pub.publish(velocity_message) 
                 time.sleep(0.4)
                 rotate(10,40,True)
                 errorp=error
             else:
-                print('less than 0.4')
+                print('less than 0.7')
                 rotate(10,40,True)
                 velocity_message.linear.x =0.707*linear_speed
                 #velocity_message.angular.z = -angular_speed
                 pub.publish(velocity_message)
-                time.sleep(0.35)
+                time.sleep(0.4)
                 errorp=error
 
-        elif(next((True for elem in dist2 if elem <0.32), False)):
+        elif(next((True for elem in dist2 if elem <0.7), False)):
             print('******************** obstacle on right *******************')
             #print('dist :',min(dist1,dist2,dist3))
             print("linear speed",linear_speed)
-            if (next((True for elem in dist2 if elem <0.2), False)):
+            if (next((True for elem in dist2 if elem <0.4), False)):
                 velocity_message.linear.x=-0.65
                 pub.publish(velocity_message)
                 time.sleep(0.4)
@@ -191,7 +191,7 @@ def go_to_goal(x_goal, y_goal):
                 velocity_message.linear.x = 0.707*linear_speed
                 #velocity_message.angular.z = angular_speed
                 pub.publish(velocity_message)
-                time.sleep(0.35)
+                time.sleep(0.4)
                 errorp=error
 
         else:
@@ -203,15 +203,15 @@ def go_to_goal(x_goal, y_goal):
 if __name__ == '__main__':
     try:
         rospy.init_node('rabbitposer',anonymous=False)
-        veltop='/cmd_vel'
+        veltop='/turtlebot/cmd_vel'
         velpub=rospy.Publisher(veltop,Twist,queue_size=10)
-        postop='/odom'
+        postop='/turtlebot/odom'
         possub=rospy.Subscriber(postop,Odometry,poseCallback)
-        disttop='/scan'
+        disttop='/turtlebot/scan'
         distsub=rospy.Subscriber(disttop,LaserScan,distCallback)
         time.sleep(1)
         #move(0.2,0.35,True)
-        l=[(1.75,0.5)]
+        l=[(-1.75,7),(-2,-5.5)]
         for (i,j) in l:
             go_to_goal(i,j)
             print("next stop")

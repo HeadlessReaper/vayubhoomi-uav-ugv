@@ -9,6 +9,10 @@ project(lidar)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED
 rospy
+std_msgs
+message_generation
+sensor_msgs
+nav_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -45,11 +49,12 @@ rospy
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+  FILES
+  distlist.msg
+  returns.msg
+  vel.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -66,10 +71,12 @@ rospy
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+  sensor_msgs 
+  nav_msgs # Or other packages containing msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -103,7 +110,7 @@ rospy
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES lidar
-#  CATKIN_DEPENDS other_catkin_pkg
+CATKIN_DEPENDS roscpp rospy std_msgs sensor_msgs message_runtime
 #  DEPENDS system_lib
 )
 
@@ -115,7 +122,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
 # include
-# ${catkin_INCLUDE_DIRS}
+${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
