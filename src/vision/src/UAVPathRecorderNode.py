@@ -49,7 +49,7 @@ def stackImages(scale,imgArray):
 def poseRecordCallback(location) :
 
     # currently focusing on appending to text file, although a pandas dataframe will be a more appropriate data structure for collecting recon data
-    file = open('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/positions.csv', 'a')
+    file = open('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/wasteTensorflow/positions.csv', 'a')
     file.write(str(frameNumber) + ',' + str(location.pose.position.x) + ',' + str(location.pose.position.y) + '\n')
     file.close()
 
@@ -91,7 +91,7 @@ def main(args):
     rospy.init_node('UAVRecordRaw', anonymous=True)
 
     # file initialization
-    file = open('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/positions.csv', 'a')
+    file = open('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/wasteTensorflow/positions.csv', 'a')
     file.write('frameNumber,x,y\n')
     file.close()
 
