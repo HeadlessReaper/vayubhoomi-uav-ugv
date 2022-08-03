@@ -49,21 +49,21 @@ def callback(data):
 	der = error - error_p
 
 
-	# Obs on three sides
-	# if ((next((True for elem in dist3 if elem <2), False)==True) and (next((True for elem in dist1 if elem <2), False)==True and (next((True for elem in dist4 if elem <2), False)==True))):
-	# 	print('ons on three sides')
-	# 	error=3/(dist1[25]+dist3[25]+dist4[25])
-	# 	msg.linear_x = -((kp * error) + (ki * integ) + (kd * der))
-	# 	pub.publish(msg)
+	#Obs on three sides
+	if ((next((True for elem in dist3 if elem <2), False)==True) and (next((True for elem in dist1 if elem <2), False)==True and (next((True for elem in dist4 if elem <2), False)==True))):
+		print('ons on three sides')
+		error=3/(dist1[25]+dist3[25]+dist4[25])
+		msg.linear_x = -((kp * error) + (ki * integ) + (kd * der))
+		pub.publish(msg)
 		
-	# # Obs on both sides
-	# elif ((next((True for elem in dist3 if elem <2), False)==True) and (next((True for elem in dist4 if elem <2), False)==True)):
-	# 	print('obs on 2 sides')
-	# 	error=2/(dist3[25]+dist4[25])
-	# 	msg.linear_x = (kp * error) + (ki * integ) + (kd * der)
-	# 	pub.publish(msg)
+	# Obs on both sides
+	elif ((next((True for elem in dist3 if elem <2), False)==True) and (next((True for elem in dist4 if elem <2), False)==True)):
+		print('obs on 2 sides')
+		error=2/(dist3[25]+dist4[25])
+		msg.linear_x = (kp * error) + (ki * integ) + (kd * der)
+		pub.publish(msg)
 	
-	if((next((True for elem in dist3 if elem <2), False)==True)):
+	elif((next((True for elem in dist3 if elem <2), False)==True)):
 		print('right') 
 		#print(len(dist3))
 		i=dist3[20]

@@ -224,10 +224,10 @@ def receiver():
         i = x*cos(radians(y))
         j = x*sin(radians(y))
         i1=clamp(i,[-30,30])
-        j1=clamp(j,[-30,19])
+        j1=clamp(j,[-30,18])
         go_to_goal(round(i1,1),round(j1,1),k)
         print('*********************************************************************')
-        sleep(0.5)
+        #sleep(0.5)
 
     rospy.spin()
 
