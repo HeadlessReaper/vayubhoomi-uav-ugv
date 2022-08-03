@@ -1,3 +1,4 @@
+<?xml version="1.0" ?>
 <sdf version='1.7'>
   <world name='default'>
     <light name='sun' type='directional'>
@@ -1531,145 +1532,145 @@
       <pose>-12.15 -19.7 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
-      <sim_time>877 690000000</sim_time>
-      <real_time>80 777353844</real_time>
-      <wall_time>1659371881 89155106</wall_time>
-      <iterations>7215</iterations>
+      <sim_time>1174 420000000</sim_time>
+      <real_time>306 894548284</real_time>
+      <wall_time>1659504624 690114174</wall_time>
+      <iterations>29673</iterations>
       <model name='Dumpster'>
-        <pose>-8.64433 -11.8944 0.050849 4e-06 -0.000102 -2.96857</pose>
+        <pose>-10.6443 -8.8944 0.0506 -1e-06 0.000478 -2.96857</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-8.64433 -11.8944 0.050849 4e-06 -0.000102 -2.96857</pose>
+          <pose>-10.6443 -8.8944 0.0506 -1e-06 0.000478 -2.96857</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0.008294 0.001567 1.95629 1.63489 1.53395 3.14153</acceleration>
-          <wrench>0.008294 0.001567 1.95629 0 -0 0</wrench>
+          <acceleration>-0.00367 -0.000668 -3.69733 -2.41453 0.859412 -3.14158</acceleration>
+          <wrench>-0.00367 -0.000668 -3.69733 0 -0 0</wrench>
         </link>
       </model>
       <model name='Gas Station'>
-        <pose>25 -13 0 0 0 -1.5708</pose>
+        <pose>22 -15 0 0 0 -1.5708</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>25 -13 0 0 0 -1.5708</pose>
+          <pose>22 -15 0 0 0 -1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='House 1'>
-        <pose>13 16 0 0 -0 0</pose>
+        <pose>13 20 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>13 16 0 0 -0 0</pose>
+          <pose>13 20 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='House 2'>
-        <pose>0 15 0 0 -0 0</pose>
+        <pose>-1 20 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>0 15 0 0 -0 0</pose>
+          <pose>-1 20 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='House 3'>
-        <pose>-8 14 0 0 -0 0</pose>
+        <pose>-11 20 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-8 14 0 0 -0 0</pose>
+          <pose>-11 20 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='asphalt_plane'>
-        <pose>10 10 0 0 -0 0</pose>
+        <pose>0 20 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>10 10 0 0 -0 0</pose>
+          <pose>0 20 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='asphalt_plane_0'>
-        <pose>10 -10 0 0 -0 0</pose>
+        <pose>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>10 -10 0 0 -0 0</pose>
+          <pose>0 0 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='asphalt_plane_1'>
-        <pose>-10 10 0 0 -0 0</pose>
+        <pose>-20 20 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-10 10 0 0 -0 0</pose>
+          <pose>-20 20 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='asphalt_plane_2'>
-        <pose>-10 -10 0 0 -0 0</pose>
+        <pose>-20 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-10 -10 0 0 -0 0</pose>
+          <pose>-20 0 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='asphalt_plane_3'>
-        <pose>-10 -30 0 0 -0 0</pose>
+        <pose>-20 -20 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-10 -30 0 0 -0 0</pose>
+          <pose>-20 -20 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='asphalt_plane_4'>
-        <pose>10 -30 0 0 -0 0</pose>
+        <pose>0 -20 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>10 -30 0 0 -0 0</pose>
+          <pose>0 -20 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='asphalt_plane_5'>
-        <pose>30 -30 0 0 -0 0</pose>
+        <pose>20 -20 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>30 -30 0 0 -0 0</pose>
+          <pose>20 -20 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='asphalt_plane_6'>
-        <pose>30 10 0 0 -0 0</pose>
+        <pose>20 20 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>30 10 0 0 -0 0</pose>
+          <pose>20 20 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='asphalt_plane_7'>
-        <pose>30 -10 0 0 -0 0</pose>
+        <pose>20 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>30 -10 0 0 -0 0</pose>
+          <pose>20 0 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -1701,8 +1702,8 @@
         <link name='link'>
           <pose>1.66725 -8.92221 0.105 3.14159 1.57079 3.14159</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
+          <acceleration>-0 0 -0 -0 -0 -0</acceleration>
+          <wrench>-0 0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='beer_clone_1'>
@@ -1716,13 +1717,13 @@
         </link>
       </model>
       <model name='beer_clone_2'>
-        <pose>1.2445 -8.60522 0.04902 0 -0 0</pose>
+        <pose>1.2445 -8.60522 0.05 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>1.2445 -8.60522 0.16402 0 -0 0</pose>
+          <pose>1.2445 -8.60522 0.165 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 -9.8 0 -0 0</acceleration>
-          <wrench>0 0 -3.822 0 -0 0</wrench>
+          <acceleration>0 -0 10.8 0 -0 0</acceleration>
+          <wrench>0 -0 4.212 0 -0 0</wrench>
         </link>
       </model>
       <model name='bowl'>
@@ -1731,8 +1732,8 @@
         <link name='link'>
           <pose>-8.99708 9.93179 0.05 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0 -0 10.8 0 -0 0</acceleration>
-          <wrench>-0 -0 1.08 0 -0 0</wrench>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='cardboard_box'>
@@ -1741,297 +1742,297 @@
         <link name='link'>
           <pose>-6.25344 10.6957 0.199 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0 0 0 -0 -0 -0</acceleration>
-          <wrench>-0 0 0 0 -0 0</wrench>
+          <acceleration>-0 -0 -0 0 -0 0</acceleration>
+          <wrench>-0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can'>
-        <pose>-9.76315 8.96989 0.046482 -0.000199 0.003996 0.000121</pose>
+        <pose>-9.76315 8.96989 0.046486 0.001723 0.005123 0.000289</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-9.76315 8.96989 0.046482 -0.000199 0.003996 0.000121</pose>
+          <pose>-9.76315 8.96989 0.046486 0.001723 0.005123 0.000289</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1e-06 -1e-06 0 2.1e-05 1.7e-05 2e-06</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>-6e-06 6e-06 -0 -0.000103 -9.9e-05 -7e-06</acceleration>
+          <wrench>-2e-06 2e-06 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone'>
-        <pose>-9.69308 9.06099 0.046482 -0.000199 0.003996 0.000121</pose>
+        <pose>-9.69308 9.061 0.046486 0.001723 0.005123 0.000289</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-9.69308 9.06099 0.046482 -0.000199 0.003996 0.000121</pose>
+          <pose>-9.69308 9.061 0.046486 0.001723 0.005123 0.000289</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1e-06 -1e-06 0 2.1e-05 1.7e-05 2e-06</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>-6e-06 6e-06 -0 -0.000103 -9.9e-05 -7e-06</acceleration>
+          <wrench>-2e-06 2e-06 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_0'>
-        <pose>-9.62428 8.91668 0.046482 -0.000199 0.003996 0.000121</pose>
+        <pose>-9.62428 8.91668 0.046486 0.001723 0.005123 0.000289</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-9.62428 8.91668 0.046482 -0.000199 0.003996 0.000121</pose>
+          <pose>-9.62428 8.91668 0.046486 0.001723 0.005123 0.000289</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1e-06 -1e-06 0 2.1e-05 1.7e-05 2e-06</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>-6e-06 6e-06 -0 -0.000103 -9.9e-05 -7e-06</acceleration>
+          <wrench>-2e-06 2e-06 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_1'>
-        <pose>-9.69808 8.8046 0.046482 -0.000199 0.003996 0.000121</pose>
+        <pose>-9.69808 8.80461 0.046486 0.001723 0.005123 0.000289</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-9.69808 8.8046 0.046482 -0.000199 0.003996 0.000121</pose>
+          <pose>-9.69808 8.80461 0.046486 0.001723 0.005123 0.000289</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1e-06 -1e-06 0 2.1e-05 1.7e-05 2e-06</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>-6e-06 6e-06 -0 -0.000103 -9.9e-05 -7e-06</acceleration>
+          <wrench>-2e-06 2e-06 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_2'>
-        <pose>-9.53066 9.15537 0.046482 -0.000199 0.003996 0.000121</pose>
+        <pose>-9.53066 9.15537 0.046486 0.001723 0.005123 0.000289</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-9.53066 9.15537 0.046482 -0.000199 0.003996 0.000121</pose>
+          <pose>-9.53066 9.15537 0.046486 0.001723 0.005123 0.000289</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1e-06 -1e-06 0 2.1e-05 1.7e-05 2e-06</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>-6e-06 6e-06 -0 -0.000103 -9.9e-05 -7e-06</acceleration>
+          <wrench>-2e-06 2e-06 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_2_clone'>
-        <pose>-0.411432 11.087 0.046482 -0.000199 0.003996 0.000121</pose>
+        <pose>-0.411434 11.087 0.046486 0.001723 0.005123 0.000289</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.411432 11.087 0.046482 -0.000199 0.003996 0.000121</pose>
+          <pose>-0.411434 11.087 0.046486 0.001723 0.005123 0.000289</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1e-06 -1e-06 0 2.1e-05 1.7e-05 2e-06</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>-6e-06 6e-06 -0 -0.000103 -9.9e-05 -7e-06</acceleration>
+          <wrench>-2e-06 2e-06 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_2_clone_0'>
-        <pose>-0.200005 11.0368 0.046482 -0.000199 0.003996 0.000121</pose>
+        <pose>-0.200007 11.0368 0.046486 0.001723 0.005123 0.000289</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.200005 11.0368 0.046482 -0.000199 0.003996 0.000121</pose>
+          <pose>-0.200007 11.0368 0.046486 0.001723 0.005123 0.000289</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1e-06 -1e-06 0 2.1e-05 1.7e-05 2e-06</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>-6e-06 6e-06 -0 -0.000103 -9.9e-05 -7e-06</acceleration>
+          <wrench>-2e-06 2e-06 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_2_clone_1'>
-        <pose>-0.362233 10.8745 0.046482 -0.000199 0.003996 0.000121</pose>
+        <pose>-0.362235 10.8745 0.046486 0.001723 0.005123 0.000289</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.362233 10.8745 0.046482 -0.000199 0.003996 0.000121</pose>
+          <pose>-0.362235 10.8745 0.046486 0.001723 0.005123 0.000289</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1e-06 -1e-06 0 2.1e-05 1.7e-05 2e-06</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>-6e-06 6e-06 -0 -0.000103 -9.9e-05 -7e-06</acceleration>
+          <wrench>-2e-06 2e-06 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_2_clone_2'>
-        <pose>-0.221168 10.8158 0.046482 -0.000199 0.003996 0.000121</pose>
+        <pose>-0.22117 10.8158 0.046486 0.001723 0.005123 0.000289</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.221168 10.8158 0.046482 -0.000199 0.003996 0.000121</pose>
+          <pose>-0.22117 10.8158 0.046486 0.001723 0.005123 0.000289</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1e-06 -1e-06 0 2.1e-05 1.7e-05 2e-06</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>-6e-06 6e-06 -0 -0.000103 -9.9e-05 -7e-06</acceleration>
+          <wrench>-2e-06 2e-06 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_2_clone_2_clone'>
-        <pose>8.33297 5.73595 0.046482 -0.000199 0.003996 0.000121</pose>
+        <pose>8.33297 5.73595 0.046486 0.001723 0.005123 0.000289</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>8.33297 5.73595 0.046482 -0.000199 0.003996 0.000121</pose>
+          <pose>8.33297 5.73595 0.046486 0.001723 0.005123 0.000289</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1e-06 -1e-06 0 2.1e-05 1.7e-05 2e-06</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>-6e-06 6e-06 -0 -0.000103 -9.9e-05 -7e-06</acceleration>
+          <wrench>-2e-06 2e-06 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_2_clone_2_clone_0'>
-        <pose>8.30781 5.44758 0.046482 -0.000199 0.003996 0.000121</pose>
+        <pose>8.30781 5.44759 0.046486 0.001723 0.005123 0.000289</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>8.30781 5.44758 0.046482 -0.000199 0.003996 0.000121</pose>
+          <pose>8.30781 5.44759 0.046486 0.001723 0.005123 0.000289</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1e-06 -1e-06 0 2.1e-05 1.7e-05 2e-06</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>-6e-06 6e-06 -0 -0.000103 -9.9e-05 -7e-06</acceleration>
+          <wrench>-2e-06 2e-06 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_2_clone_2_clone_1'>
-        <pose>8.20246 5.65283 0.046482 -0.000199 0.003996 0.000121</pose>
+        <pose>8.20246 5.65283 0.046486 0.001723 0.005123 0.000289</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>8.20246 5.65283 0.046482 -0.000199 0.003996 0.000121</pose>
+          <pose>8.20246 5.65283 0.046486 0.001723 0.005123 0.000289</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1e-06 -1e-06 0 2.1e-05 1.7e-05 2e-06</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>-6e-06 6e-06 -0 -0.000103 -9.9e-05 -7e-06</acceleration>
+          <wrench>-2e-06 2e-06 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_2_clone_2_clone_2'>
-        <pose>8.53892 5.61203 0.046482 -0.000199 0.003996 0.000121</pose>
+        <pose>8.53892 5.61203 0.046486 0.001723 0.005123 0.000289</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>8.53892 5.61203 0.046482 -0.000199 0.003996 0.000121</pose>
+          <pose>8.53892 5.61203 0.046486 0.001723 0.005123 0.000289</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1e-06 -1e-06 0 2.1e-05 1.7e-05 2e-06</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>-6e-06 6e-06 -0 -0.000103 -9.9e-05 -7e-06</acceleration>
+          <wrench>-2e-06 2e-06 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_2_clone_2_clone_3'>
-        <pose>8.58596 5.33681 0.046482 -0.000199 0.003996 0.000121</pose>
+        <pose>8.58596 5.33681 0.046486 0.001723 0.005123 0.000289</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>8.58596 5.33681 0.046482 -0.000199 0.003996 0.000121</pose>
+          <pose>8.58596 5.33681 0.046486 0.001723 0.005123 0.000289</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1e-06 -1e-06 0 2.1e-05 1.7e-05 2e-06</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>-6e-06 6e-06 -0 -0.000103 -9.9e-05 -7e-06</acceleration>
+          <wrench>-2e-06 2e-06 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_2_clone_3'>
-        <pose>10.7843 -6.75628 0.046482 -0.000199 0.003996 0.000121</pose>
+        <pose>10.7843 -6.75627 0.046486 0.001723 0.005123 0.000289</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>10.7843 -6.75628 0.046482 -0.000199 0.003996 0.000121</pose>
+          <pose>10.7843 -6.75627 0.046486 0.001723 0.005123 0.000289</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1e-06 -1e-06 0 2.1e-05 1.7e-05 2e-06</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>-6e-06 6e-06 -0 -0.000103 -9.9e-05 -7e-06</acceleration>
+          <wrench>-2e-06 2e-06 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_2_clone_4'>
-        <pose>10.9726 -6.76255 0.046482 -0.000199 0.003996 0.000121</pose>
+        <pose>10.9726 -6.76255 0.046486 0.001723 0.005123 0.000289</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>10.9726 -6.76255 0.046482 -0.000199 0.003996 0.000121</pose>
+          <pose>10.9726 -6.76255 0.046486 0.001723 0.005123 0.000289</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1e-06 -1e-06 0 2.1e-05 1.7e-05 2e-06</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>-6e-06 6e-06 -0 -0.000103 -9.9e-05 -7e-06</acceleration>
+          <wrench>-2e-06 2e-06 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_2_clone_5'>
-        <pose>11.3258 -6.89842 0.046482 -0.000199 0.003996 0.000121</pose>
+        <pose>11.3258 -6.89841 0.046486 0.001723 0.005123 0.000289</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>11.3258 -6.89842 0.046482 -0.000199 0.003996 0.000121</pose>
+          <pose>11.3258 -6.89841 0.046486 0.001723 0.005123 0.000289</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1e-06 -1e-06 0 2.1e-05 1.7e-05 2e-06</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>-6e-06 6e-06 -0 -0.000103 -9.9e-05 -7e-06</acceleration>
+          <wrench>-2e-06 2e-06 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_3'>
-        <pose>-9.51663 8.8986 0.081403 -0.431825 1.56334 -0.43159</pose>
+        <pose>-9.51663 8.89859 0.0814 -0.376809 1.56338 -0.376572</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-9.51663 8.8986 0.081403 -0.431825 1.56334 -0.43159</pose>
+          <pose>-9.51663 8.89859 0.0814 -0.376809 1.56338 -0.376572</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 -0 -0 2.8e-05 -0 0</acceleration>
+          <acceleration>0 -0 -0 2.6e-05 -0 0</acceleration>
           <wrench>0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_3_clone'>
-        <pose>-0.140849 10.9198 0.081403 -0.431825 1.56334 -0.43159</pose>
+        <pose>-0.140853 10.9198 0.0814 -0.376809 1.56338 -0.376572</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.140849 10.9198 0.081403 -0.431825 1.56334 -0.43159</pose>
+          <pose>-0.140853 10.9198 0.0814 -0.376809 1.56338 -0.376572</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 -0 -0 2.8e-05 -0 0</acceleration>
+          <acceleration>0 -0 -0 2.6e-05 -0 0</acceleration>
           <wrench>0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_3_clone_0'>
-        <pose>-0.614286 10.9031 0.081403 -0.431825 1.56334 -0.43159</pose>
+        <pose>-0.61429 10.9031 0.0814 -0.376809 1.56338 -0.376572</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.614286 10.9031 0.081403 -0.431825 1.56334 -0.43159</pose>
+          <pose>-0.61429 10.9031 0.0814 -0.376809 1.56338 -0.376572</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 -0 -0 2.8e-05 -0 0</acceleration>
+          <acceleration>0 -0 -0 2.6e-05 -0 0</acceleration>
           <wrench>0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_3_clone_1'>
-        <pose>-0.441187 10.7395 0.081403 -0.431825 1.56334 -0.43159</pose>
+        <pose>-0.441191 10.7395 0.0814 -0.376809 1.56338 -0.376572</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.441187 10.7395 0.081403 -0.431825 1.56334 -0.43159</pose>
+          <pose>-0.441191 10.7395 0.0814 -0.376809 1.56338 -0.376572</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 -0 -0 2.8e-05 -0 0</acceleration>
+          <acceleration>0 -0 -0 2.6e-05 -0 0</acceleration>
           <wrench>0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_3_clone_2'>
-        <pose>10.9792 -6.90104 0.081403 -0.431825 1.56334 -0.43159</pose>
+        <pose>10.9792 -6.90105 0.0814 -0.376809 1.56338 -0.376572</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>10.9792 -6.90104 0.081403 -0.431825 1.56334 -0.43159</pose>
+          <pose>10.9792 -6.90105 0.0814 -0.376809 1.56338 -0.376572</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 -0 -0 2.8e-05 -0 0</acceleration>
+          <acceleration>0 -0 -0 2.6e-05 -0 0</acceleration>
           <wrench>0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_3_clone_clone'>
-        <pose>8.31449 5.28811 0.081403 -0.431825 1.56334 -0.43159</pose>
+        <pose>8.31449 5.2881 0.0814 -0.376809 1.56338 -0.376572</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>8.31449 5.28811 0.081403 -0.431825 1.56334 -0.43159</pose>
+          <pose>8.31449 5.2881 0.0814 -0.376809 1.56338 -0.376572</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 -0 -0 2.8e-05 -0 0</acceleration>
+          <acceleration>0 -0 -0 2.6e-05 -0 0</acceleration>
           <wrench>0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_3_clone_clone_0'>
-        <pose>8.05638 5.49738 0.081403 -0.431825 1.56334 -0.43159</pose>
+        <pose>8.05638 5.49737 0.0814 -0.376809 1.56338 -0.376572</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>8.05638 5.49738 0.081403 -0.431825 1.56334 -0.43159</pose>
+          <pose>8.05638 5.49737 0.0814 -0.376809 1.56338 -0.376572</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 -0 -0 2.8e-05 -0 0</acceleration>
+          <acceleration>0 -0 -0 2.6e-05 -0 0</acceleration>
           <wrench>0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_3_clone_clone_1'>
-        <pose>8.50053 5.49406 0.081403 -0.431825 1.56334 -0.43159</pose>
+        <pose>8.50053 5.49405 0.0814 -0.376809 1.56338 -0.376572</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>8.50053 5.49406 0.081403 -0.431825 1.56334 -0.43159</pose>
+          <pose>8.50053 5.49405 0.0814 -0.376809 1.56338 -0.376572</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 -0 -0 2.8e-05 -0 0</acceleration>
+          <acceleration>0 -0 -0 2.6e-05 -0 0</acceleration>
           <wrench>0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_3_clone_clone_2'>
-        <pose>8.30183 5.60889 0.081403 -0.431825 1.56334 -0.43159</pose>
+        <pose>8.30183 5.60888 0.0814 -0.376809 1.56338 -0.376572</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>8.30183 5.60889 0.081403 -0.431825 1.56334 -0.43159</pose>
+          <pose>8.30183 5.60888 0.0814 -0.376809 1.56338 -0.376572</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 -0 -0 2.8e-05 -0 0</acceleration>
+          <acceleration>0 -0 -0 2.6e-05 -0 0</acceleration>
           <wrench>0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_3_clone_clone_3'>
-        <pose>11.1071 -6.66951 0.081403 -0.431825 1.56334 -0.43159</pose>
+        <pose>11.1071 -6.66952 0.0814 -0.376809 1.56338 -0.376572</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>11.1071 -6.66951 0.081403 -0.431825 1.56334 -0.43159</pose>
+          <pose>11.1071 -6.66952 0.0814 -0.376809 1.56338 -0.376572</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 -0 -0 2.8e-05 -0 0</acceleration>
+          <acceleration>0 -0 -0 2.6e-05 -0 0</acceleration>
           <wrench>0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_3_clone_clone_4'>
-        <pose>8.3311 -6.53808 0.081403 -0.431825 1.56334 -0.43159</pose>
+        <pose>8.3311 -6.53809 0.0814 -0.376809 1.56338 -0.376572</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>8.3311 -6.53808 0.081403 -0.431825 1.56334 -0.43159</pose>
+          <pose>8.3311 -6.53809 0.0814 -0.376809 1.56338 -0.376572</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 -0 -0 2.8e-05 -0 0</acceleration>
+          <acceleration>0 -0 -0 2.6e-05 -0 0</acceleration>
           <wrench>0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can_clone_3_clone_clone_5'>
-        <pose>1.65722 -8.46353 0.081403 -0.431825 1.56334 -0.43159</pose>
+        <pose>1.65722 -8.46354 0.0814 -0.376809 1.56338 -0.376572</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>1.65722 -8.46353 0.081403 -0.431825 1.56334 -0.43159</pose>
+          <pose>1.65722 -8.46354 0.0814 -0.376809 1.56338 -0.376572</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 -0 -0 2.8e-05 -0 0</acceleration>
+          <acceleration>0 -0 -0 2.6e-05 -0 0</acceleration>
           <wrench>0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
@@ -2141,7 +2142,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>-6.48481 -40.6474 52.2285 0 0.946059 1.53779</pose>
+        <pose>-16.2303 -37.7926 31.7942 0 0.685796 1.48097</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
