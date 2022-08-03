@@ -29,6 +29,16 @@ global height
 
 vel_pub = rospy.Publisher('/quadrotor/cmd_vel', Twist, queue_size=1)
 
+def clamp(value, limits):
+    lower, upper = limits
+    if value is None:
+        return None
+    elif upper is not None and value > upper:
+        return upper
+    elif lower is not None and value < lower:
+        return lower
+    return value
+
 def poseCallback(pose_message):
     global x
     global y,z,yaw
@@ -208,12 +218,14 @@ def receiver():
         
     k=2
 
-    r = linspace(0,40,40)
+    r = linspace(0,30,40)
     t = linspace(0,2000,40)
     for x,y in zip(r,t):
         i = x*cos(radians(y))
         j = x*sin(radians(y))
-        go_to_goal(round(i,1),round(j,1),k)
+        i1=clamp(i,[-30,30])
+        j1=clamp(j,[-30,19])
+        go_to_goal(round(i1,1),round(j1,1),k)
         print('*********************************************************************')
         sleep(0.5)
 
