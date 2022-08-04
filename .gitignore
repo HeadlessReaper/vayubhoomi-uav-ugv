@@ -64,6 +64,7 @@ src/vision/src/wasteTensorflow/models
 src/vision/src/wasteTensorflow/dataset
 src/vision/src/wasteTensorflow/trained-models
 src/vision/src/wasteTensorflow/video.mp4
+src/vision/src/wasteTensorflow/positions.csv
 
 # VSCode ignore
 .vscode
