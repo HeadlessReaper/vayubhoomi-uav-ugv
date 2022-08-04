@@ -1,3 +1,4 @@
+'''
 from object_detection.utils import label_map_util, dataset_util
 from object_detection.protos import string_int_label_map_pb2
 import numpy as np
@@ -98,7 +99,7 @@ detection_graph = reconstruct("/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/v
 
 def recordPoint(x, y):
      # currently focusing on appending to text file, although a pandas dataframe will be a more appropriate data structure for collecting recon data
-    file = open('poi.csv', 'a')
+    file = open('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/wasteTensorflow/poi.csv', 'a')
     file.write(str(x) + ',' + str(y) + '\n')
     file.close()
 
@@ -115,14 +116,14 @@ frameNumber = 0
 
 # point of interest file initialization
 file = open('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/wasteTensorflow/poi.csv', 'a')
-#file.write('x,y\n')
+file.write('x,y\n')
 file.close()
 
 # initializing the positions dataframe and dropping duplicate poses before saving again
-df = pd.read_csv('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/positions.csv')
+df = pd.read_csv('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/wasteTensorflow/positions.csv')
 df = df.drop_duplicates(subset=['frameNumber'], keep='first')
-df.to_csv('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/positions.csv', index=False)
-df = pd.read_csv('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/positions.csv')
+df.to_csv('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/wasteTensorflow/positions.csv', index=False)
+df = pd.read_csv('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/wasteTensorflow/positions.csv')
 
 # loop runs if capturing has been initialized. 
 while(True):
@@ -138,11 +139,11 @@ while(True):
     # conditional resizing based on the frame dimensions to minimize dataloss
     height, width, channels = frame.shape
     if height > width:
-        cv2.resize(img, (1357, 2049))
+        cv2.resize(frame, (1357, 2049))
     else:
-        cv2.resize(img, (2049, 1357))
+        cv2.resize(frame, (2049, 1357))
 
-    cv2.imwrite('image.jpg', frame)
+    cv2.imwrite('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/wasteTensorflow/image.jpg', frame)
       
     frameNumber += 1
     index = frameNumber - 1
@@ -162,6 +163,7 @@ while(True):
     fps = 1 / (time.time() - curTime)
     curTime = time.time()
 
+    cv2.imshow('Frame', frame)
     cv2.waitKey(1) 
   
 # Close the window / Release webcam
@@ -169,6 +171,9 @@ cap.release()
   
 # De-allocate any associated memory usage 
 cv2.destroyAllWindows()
+'''
+import pandas as pd
+from sklearn.cluster import KMeans
 
 # importing poi.csv
 dataset = pd.read_csv('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/wasteTensorflow/poi.csv')
@@ -176,7 +181,7 @@ X = pd.DataFrame(dataset)
 X = X.to_numpy(dtype ='float32')
 
 # setting the thresholds for clustering
-numClusters = 20
+numClusters = 5
 print('Number of clusters = ', numClusters)
 
 # clustering
