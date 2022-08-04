@@ -1,4 +1,3 @@
-'''
 from object_detection.utils import label_map_util, dataset_util
 from object_detection.protos import string_int_label_map_pb2
 import numpy as np
@@ -171,9 +170,6 @@ cap.release()
   
 # De-allocate any associated memory usage 
 cv2.destroyAllWindows()
-'''
-import pandas as pd
-from sklearn.cluster import KMeans
 
 # importing poi.csv
 dataset = pd.read_csv('/home/sr42/catkin_ws/src/vayubhoomi-uav-ugv/src/vision/src/wasteTensorflow/poi.csv')
