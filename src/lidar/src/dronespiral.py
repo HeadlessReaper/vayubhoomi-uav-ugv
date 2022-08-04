@@ -6,6 +6,7 @@ import math
 import rospy
 from time import sleep
 from lidar.msg import vel
+from lidar.srv import request,requestResponse,requestRequest
 from nav_msgs.msg import Odometry
 import time
 from numpy import *
@@ -25,6 +26,7 @@ derh=0
 errorhp=0
 integh=0
 ctr=0
+spiraldone=0
 global height
 
 vel_pub = rospy.Publisher('/quadrotor/cmd_vel', Twist, queue_size=1)
@@ -102,7 +104,7 @@ def go_to_goal(x_goal, y_goal,z_goal):
     #distref=round(abs(math.sqrt(((x_goal-0) * 2) + ((y_goal-0) * 2))),2)
     while (True):        
         
-        global integ,heightp
+        global integ,heightp,spiraldone
         '''
         kp = 0.5
         ki=0.0001
@@ -179,6 +181,8 @@ def go_to_goal(x_goal, y_goal,z_goal):
             velocity_message.linear.z=0
             velocity_message.angular.z=0
             pub.publish(velocity_message)
+            spiraldone=1
+            rospy.Service('spiral', request, process_service_request)
             #time.sleep(0.25)
             break
         else:
@@ -202,6 +206,15 @@ def go_to_goal(x_goal, y_goal,z_goal):
             go_to_goal(5,2)
         '''
 
+def process_service_request(req):
+    global spiraldone
+    res=requestResponse()
+    if(req.x ==1 and spiraldone==1):
+        res.success=True
+    else:
+        res.success=False
+    return res
+
 def receiver():
     rospy.init_node('autohector',anonymous=True)
     veltop='/quadrotor/cmd_vel'
@@ -218,16 +231,19 @@ def receiver():
         
     k=2
 
-    r = linspace(0,30,40)
-    t = linspace(0,2000,40)
-    for x,y in zip(r,t):
-        i = x*cos(radians(y))
-        j = x*sin(radians(y))
-        i1=clamp(i,[-30,30])
-        j1=clamp(j,[-30,18])
-        go_to_goal(round(i1,1),round(j1,1),k)
-        print('*********************************************************************')
+
+    r = linspace(0,5,40)
+    t = linspace(0,3000,40)
+    # for x,y in zip(r,t):
+    #     i = x*cos(radians(y))
+    #     j = x*sin(radians(y))
+    #     i1=clamp(i,[-30,30])
+    #     j1=clamp(j,[-25,18])
+    #     go_to_goal(round(i1,1),round(j1,1),k)
+    #     print('*********************************************************************')
         #sleep(0.5)
+    go_to_goal(1,2,k)
+    print('*********************************************************************')
 
     rospy.spin()
 

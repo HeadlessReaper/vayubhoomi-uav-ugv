@@ -7,7 +7,10 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import LaserScan
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
+from lidar.msg import returns
+from lidar.srv import request,requestRequest,requestResponse
 import time
+import pandas as pd
 
 x=0
 y=0
@@ -53,6 +56,16 @@ def distCallback(msg):
     dist3=msg.ranges[10] 
     dist4=msg.ranges[310]
     #print(" Distance from scan topic : ",dist1)
+def successclient(a):    
+    rospy.wait_for_service('spiral')
+    try:
+        spiral=rospy.ServiceProxy('spiral',request)
+        servresponse=spiral(a)
+        print("I only got here AFTER the service call was completed!")
+        return servresponse
+    except rospy.ServiceException as e:
+        print('Service call failed')
+
 
 def check(d1,d):
     ctr=0
@@ -202,6 +215,7 @@ def go_to_goal(x_goal, y_goal):
         
 if __name__ == '__main__':
     try:
+        global m,n
         rospy.init_node('rabbitposer',anonymous=False)
         veltop='/turtlebot/cmd_vel'
         velpub=rospy.Publisher(veltop,Twist,queue_size=10)
@@ -210,12 +224,23 @@ if __name__ == '__main__':
         disttop='/turtlebot/scan'
         distsub=rospy.Subscriber(disttop,LaserScan,distCallback)
         time.sleep(1)
+
+        b=1
+
+        suc=successclient(b)
+        if suc.success==True:
+            df=pd.read_csv("/home/pramuk/Desktop/UAV-UGV/vayubhoomi-uav-ugv/catkin_ws/src/lidar/wasteTensorflow/poi.csv")
+            m=df['x'].tolist()
+            n=df['y'].tolist()
+            for (i,j) in zip(m[1:],n[1:]):
+                go_to_goal(i,j)
+                print("next stop")
+                time.sleep(1)
+        else:
+            print('Not yet finished spiralling')
         #move(0.2,0.35,True)
-        l=[(-1.75,7),(-2,-5.5)]
-        for (i,j) in l:
-            go_to_goal(i,j)
-            print("next stop")
-            time.sleep(1)
+        rospy.spin()
+
         
     except rospy.ROSInterruptException:
         rospy.loginfo("node terminated.")

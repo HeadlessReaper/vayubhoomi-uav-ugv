@@ -1,0 +1,3 @@
+int32 x		# Request message: Distance in (m) to be converted to feet.
+---
+bool success		# Response message: Response after spiralling
