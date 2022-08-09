@@ -6,6 +6,7 @@ import math
 import rospy
 from time import sleep
 from lidar.msg import vel
+from lidar.srv import request,requestResponse,requestRequest
 from nav_msgs.msg import Odometry
 import time
 from numpy import *
@@ -24,9 +25,21 @@ errorp=0.
 derh=0
 errorhp=0
 integh=0
+ctr=0
+spiraldone=0
 global height
 
 vel_pub = rospy.Publisher('/quadrotor/cmd_vel', Twist, queue_size=1)
+
+def clamp(value, limits):
+    lower, upper = limits
+    if value is None:
+        return None
+    elif upper is not None and value > upper:
+        return upper
+    elif lower is not None and value < lower:
+        return lower
+    return value
 
 def poseCallback(pose_message):
     global x
@@ -58,22 +71,26 @@ def hover():
     initMessage(0.0,0.0,0.0,0.0)
 
 def call_obs(data_obs):
+    global ctr
     print('in call obs function')
     vmsg=Twist()
     pub = rospy.Publisher('/quadrotor/cmd_vel', Twist, queue_size=10)
     # If it receives non-zero velocities, an obstacle is present
     if data_obs.linear_x == 0.0 and data_obs.linear_y == 0.0 and data_obs.linear_z == 0.0:
-        print('obs linearx 0')
+        #print('obs linearx 0')
+        pass
 
     else:
+        ctr=ctr+1
         print('obs true',data_obs.linear_x,data_obs.linear_y,data_obs.linear_z)
         vmsg.linear.x = data_obs.linear_x
         vmsg.linear.y = data_obs.linear_y
         vmsg.linear.z = data_obs.linear_z
         pub.publish(vmsg)
+        
 
 def go_to_goal(x_goal, y_goal,z_goal):
-    global x, distp , errorp,errorhp,integh,derh,height
+    global x, distp , errorp,errorhp,integh,derh,height,ctr
     global y, z,yaw
 
     velocity_message = Twist()
@@ -87,14 +104,13 @@ def go_to_goal(x_goal, y_goal,z_goal):
     #distref=round(abs(math.sqrt(((x_goal-0) * 2) + ((y_goal-0) * 2))),2)
     while (True):        
         
-        global integ,heightp
+        global integ,heightp,spiraldone
         '''
         kp = 0.5
         ki=0.0001
         kd=1.4
         '''
         
-
         Kp_vertical = 1.2
         Ki_vertical = 0.0001
         Kd_vertical = 1.5
@@ -133,7 +149,6 @@ def go_to_goal(x_goal, y_goal,z_goal):
         derh=errorh-errorhp
         
         vertical_speed = height*Kp_vertical+derh*Kd_vertical+integh*Ki_vertical
-        #c=op(distance)
         linear_speed = kp*distance+ki*integ+(kd*der)
         
 
@@ -160,20 +175,27 @@ def go_to_goal(x_goal, y_goal,z_goal):
 
         if ((x==x_goal and y==y_goal and z==z_goal) or ((0.98*x_goal<=x<=1.02*x_goal) and (0.98*y_goal<=y<=1.02*y_goal)and (0.98*z_goal<z<=1.02*z_goal)) ):
             print("*************")
+            ctr=0
             velocity_message.linear.x = 0
             velocity_message.linear.y=0
             velocity_message.linear.z=0
             velocity_message.angular.z=0
             pub.publish(velocity_message)
+            spiraldone=1
+            rospy.Service('spiral', request, process_service_request)
             #time.sleep(0.25)
             break
         else:
-            pub.publish(velocity_message)
-            print ('x=', x, 'y=',y,"z=",z)
-            heightp=height
-            distp=distance
-            errorp=error
-            errorhp=errorh
+            if ctr>2000:
+                ctr=0
+                break
+            else:
+                pub.publish(velocity_message)
+                #print ('x=', x, 'y=',y,"z=",z)
+                heightp=height
+                distp=distance
+                errorp=error
+                errorhp=errorh
         '''
         elif(distance<0.5):
             print('*******obstacle seen******')
@@ -183,6 +205,15 @@ def go_to_goal(x_goal, y_goal,z_goal):
             time.sleep(0.5)
             go_to_goal(5,2)
         '''
+
+def process_service_request(req):
+    global spiraldone
+    res=requestResponse()
+    if(req.x ==1 and spiraldone==1):
+        res.success=True
+    else:
+        res.success=False
+    return res
 
 def receiver():
     rospy.init_node('autohector',anonymous=True)
@@ -198,15 +229,21 @@ def receiver():
 
     hover()
         
-    k=6
+    k=2
 
-    r = linspace(0,40,40)
-    t = linspace(0,2000,40)
-    for x,y in zip(r,t):
-        i = x*cos(radians(y))
-        j = x*sin(radians(y))
-        go_to_goal(round(i,1),round(j,1),k)
-        print('***************')
+
+    r = linspace(0,5,40)
+    t = linspace(0,3000,40)
+    # for x,y in zip(r,t):
+    #     i = x*cos(radians(y))
+    #     j = x*sin(radians(y))
+    #     i1=clamp(i,[-30,30])
+    #     j1=clamp(j,[-25,18])
+    #     go_to_goal(round(i1,1),round(j1,1),k)
+    #     print('*********************************************************************')
+        #sleep(0.5)
+    go_to_goal(1,2,k)
+    print('*********************************************************************')
 
     rospy.spin()
 
